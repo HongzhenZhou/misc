@@ -2,6 +2,7 @@
 
 import os
 import optparse
+#pip3 install pywinrm
 import winrm
 from winrm.protocol import Protocol
 
