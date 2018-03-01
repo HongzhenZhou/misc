@@ -1,0 +1,44 @@
+header fieldset label {
+  font-weight: bold;
+}
+
+header fieldset input {
+  font-style: italic;
+}
+
+#sidlist {
+  display: none;
+}
+
+header {
+  font-size: small;
+  background-color: lightgrey;
+}
+
+
+.Pic {
+  padding-bottom: 20px;
+  padding-top: 20px;
+  font-size: small;
+}
+
+.Notify {
+  font-weight: bold;
+  font-size: medium;
+}
+
+#sqlprogress {
+  padding-left: 10px;
+  font-style: italic;
+  font-size: small;
+}
+
+#fixed {
+  position: fixed;
+  right: 0;
+  bottom:0;
+  height: 30px;
+  width: 40px;
+  opacity: 0.5;
+  z-index: 10;
+}

@@ -1,0 +1,65 @@
+
+.Content {
+  font-size: medium;
+}
+
+.Notify {
+  font-weight: bold;
+  font-size: medium;
+}
+
+@media screen and (max-width: 800px) {
+  .Content {
+    font-size: small;
+  }
+
+  textarea#sqlquery {
+    width: 98%;
+    max-width: 98%;
+    padding-left: 5px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  textarea#sqlquery {
+    width: 98%;
+    max-width: 98%;
+    padding-left: 8px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  textarea#sqlquery {
+    width: 97%;
+    max-width: 97%;
+    padding-left: 2px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  textarea#sqlquery {
+    width: 90%;
+    max-width: 90%;
+    padding-left: 0px;
+  }
+}
+
+textarea#sqlquery {
+  width: 99%;
+  max-width: 99%;
+  height: 90%; 
+  max-height: 90%;
+  overflow: auto;
+  padding-left: 8px;
+}
+
+#fixed {
+  position: fixed;
+  right: 0;
+  bottom:0;
+  height: 30px;
+  width: 40px;
+  opacity: 0.5;
+  z-index: 10;
+}
+

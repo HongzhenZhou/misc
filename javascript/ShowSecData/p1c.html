@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0,width=device-width" />
+  <!-- saved from url=(0014)about:internet -->
+  <title>Company Financial Parser</title>
+  <link href="css/p1c.css" rel="stylesheet"/>
+  <script src="js/jquery-2.0.2.min.js"></script>
+  <script src="js/highcharts.js"></script>
+  <script src="js/modules/exporting.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/sqlite3.js"></script>
+  <script src="js/draw.js"></script>
+  <script src="js/p1c.js"></script>
+</head>
+<body>
+  <header id="Top" class="Header">
+    <form id="query_area" action="#" onsubmit="getFp1cSIDOrAbbr(); return false;">
+      <fieldset>
+        <label for="stock">Stock:</label>
+        <input id="stock" type="text" placeholder="SID or Abbreviation" title="Please input SID (numbers) or Abbreviation (letters, numbers or *)" pattern="[0-9a-zA-Z*]+" autofocus required>
+        <select id="sidlist" type="select-one" onchange="selectSID(this);">
+          <option value=""></option>
+        </select>
+        <input id="submit" class="submit" type="submit" value="Search">
+      </fieldset>
+    </form>
+  </header>
+  <div id="draw_area" class="Content">
+    <div id="show_area" class="Notify">
+    </div>
+    <div id="control" class="control">
+      <select id="controler" onchange="selectPic(this);">
+        <option value="all">All</option>
+        <option value="pic1">总资产和股东权益</option>
+        <option value="pic2">往年流动资产各项占比</option>
+        <option value="pic3">近期流动资产按季度各项占比</option>
+        <option value="pic4">往年负债结构分析</option>
+        <option value="pic5">按季度近期负债结构分析</option>
+        <option value="pic6">资产负债率</option>
+        <option value="pic7">各大类资产及负债占比</option>
+        <option value="pic8">各大类资产及负债占比(续)</option>
+        <option value="pic9">流动比率和速动比率</option>
+        <!--<option value="pic10"></option>-->
+        <option value="pic11">营业收入和归属母公司的净利润(年度)</option>
+        <option value="pic12">归属母公司的净利润(分季度)</option>
+        <option value="pic13">归属母公司的净利润增长(分季度)</option>
+        <option value="pic14">营业收入(分季度)</option>
+        <option value="pic15">营业收入增长(分季度)</option>
+        <option value="pic16">ROE,ROA</option>
+        <option value="pic17">非经营性收入占净利润比</option>
+        <option value="pic18">销售、管理和财务费用占收入比</option>
+        <option value="pic19">净利率和毛利率</option>
+        <option value="pic20">应收应付款占收入比</option>
+        <option value="pic21">应收应付款同比增速(年度)</option>
+        <option value="pic22">应收应付款同比增速(年初到报告期)</option>
+        <option value="pic23">存货预付预收款占收入比</option>
+        <option value="pic24">存货预付预收款同比增速(年度)</option>
+        <option value="pic25">存货预付预收款同比增速(年初到报告期)</option>
+        <!--<option value="pic26"></option>-->
+        <option value="pic27">现金流</option>
+        <option value="pic28">现金流增速</option>
+        <!--<option value="pic29"></option>
+        <option value="pic30"></option>-->
+      </select>
+    </div>
+    <div class="Pic" id="pic1"></div>
+    <div class="Pic" id="pic2"></div>
+    <div class="Pic" id="pic3"></div>
+    <div class="Pic" id="pic4"></div>
+    <div class="Pic" id="pic5"></div>
+    <div class="Pic" id="pic6"></div>
+    <div class="Pic" id="pic7"></div>
+    <div class="Pic" id="pic8"></div>
+    <div class="Pic" id="pic9"></div>
+    <div class="Pic" id="pic10"></div>
+    <div class="Pic" id="pic11"></div>
+    <div class="Pic" id="pic12"></div>
+    <div class="Pic" id="pic13"></div>
+    <div class="Pic" id="pic14"></div>
+    <div class="Pic" id="pic15"></div>
+    <div class="Pic" id="pic16"></div>
+    <div class="Pic" id="pic17"></div>
+    <div class="Pic" id="pic18"></div>
+    <div class="Pic" id="pic19"></div>
+    <div class="Pic" id="pic20"></div>
+    <div class="Pic" id="pic21"></div>
+    <div class="Pic" id="pic22"></div>
+    <div class="Pic" id="pic23"></div>
+    <div class="Pic" id="pic24"></div>
+    <div class="Pic" id="pic25"></div>
+    <div class="Pic" id="pic26"></div>
+    <div class="Pic" id="pic27"></div>
+    <div class="Pic" id="pic28"></div>
+    <div class="Pic" id="pic29"></div>
+    <div class="Pic" id="pic30"></div>
+  </div>
+  <div id="fixed" title="Back To Top"><a href="#Top">Top</a></div>
+</body>
+</html>
+
+

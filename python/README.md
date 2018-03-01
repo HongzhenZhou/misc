@@ -1,4 +1,4 @@
 # misc
 
-pywsh.py -- WinRM shell client
+pywsh.py -- a simple WinRM shell client
 

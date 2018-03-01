@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0,width=device-width" />
+  <!-- saved from url=(0014)about:internet -->
+  <title>Update ChinaSec DB</title>
+  <link href="css/upd.css" rel="stylesheet"/>
+  <script src="js/jquery-2.0.2.min.js"></script>
+  <script src="js/highcharts.js"></script>
+  <script src="js/modules/exporting.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/sqlite3.js"></script>
+  <script src="js/upd.js"></script>
+</head>
+<body>
+  <div class="Content">
+    <form id="update_area" action="#" onsubmit="updateChinaSecDB(); return false;">
+      <legend>SQL query:</legend>
+      <p>
+      <textarea id="sqlquery" title="Please paste the content copied from ChinaSec DB update" autofocus required rows="8"></textarea>
+      <p>
+      <input id="submit" class="submit" type="submit" value="Execute">
+    </form>
+  </div>
+  <div id="show_area" class="Notify">
+  </div>
+  <div id="fixed" title="Back To Top"><a href="#Top">Top</a></div>
+</body>
+</html>
+
+
