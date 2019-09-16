@@ -1,0 +1,9 @@
+version: '2'
+services:
+  web:
+    restart: always
+    build: .
+    ports:
+            - "127.0.0.1:65500:65500"
+    volumes:
+     - .:/code
