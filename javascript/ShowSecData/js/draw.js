@@ -3148,6 +3148,7 @@ function showCF(o, sid, yls, qls, txaxis, pxaxis)
 		});
 	});
 
+	/*
 	$(function (o) 
 	{
 		$('#pic28').highcharts(
@@ -3183,4 +3184,5 @@ function showCF(o, sid, yls, qls, txaxis, pxaxis)
 			}]
 		});
 	});
+	*/
 }
