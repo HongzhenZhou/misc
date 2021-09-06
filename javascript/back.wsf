@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<!-- Copyright @2021, Zhou HongZhen -->
+<job id="IncludeVBS">
+	<script language="VBScript">
+	<![CDATA[
+		Function WSHInputBox(msg, title, v)
+			WSHInputBox = InputBox(msg, title, v)
+		End Function
+	]]>
+	</script>
+	<script language="JScript">
+	<![CDATA[
+		var title = "请输入要转换的csv文件名";
+		var prompt = "请输入要转换的csv文件名";
+		var wsh = WScript.CreateObject("WScript.shell");
+		var fso=Wscript.CreateObject("Scripting.FileSystemObject");
+		var r = "";
+
+		if (!String.prototype.repeat) {
+			String.prototype.repeat = function(count) {
+				'use strict';
+    				if (this == null) 
+      					throw new TypeError('can\'t convert ' + this + ' to object');
+ 
+    				var str = '' + this;
+    				count = +count;
+    				if (count != count) 
+      					count = 0;
+    
+    				if (count < 0) 
+      					throw new RangeError('repeat count must be non-negative');
+
+    				if (count == Infinity) 
+      					throw new RangeError('repeat count must be less than infinity');
+
+    				count = Math.floor(count);
+    				if (str.length == 0 || count == 0) 
+      					return '';
+
+    				if (str.length * count >= 1 << 28) 
+      					throw new RangeError('repeat count must not overflow maximum string size');
+
+    				var rpt = '';
+
+    				for (;;) {
+      					if ((count & 1) == 1) 
+        						rpt += str;
+
+      					count >>>= 1;
+      					if (count == 0) 
+        						break;
+
+      					str += str;
+    				}
+
+    				return rpt;
+  			}
+		}
+
+		for (var i = 0; i < 3; i++, r="") {
+			r = WSHInputBox(prompt, title, '');
+			if (!r)
+			{
+				if (i == 0)
+					wsh.popup("需要文件名才能继续运行", 0, "退出", 0);
+				break;
+			}
+
+			if (-1 == r.search(/\.csv\s*$/i))
+			{
+				wsh.popup("需要csv文件", 0, "文件名必须以.csv结尾", 0);
+				continue;
+			}
+		
+			if (!fso.FileExists(r))
+				wsh.popup("请确认你输入了正确的文件路径名", 0, "没找到文件", 0);
+			break;
+		}
+
+		if (!r)
+			WScript.Quit(1);
+
+		var fsn = r.replace(/\.csv\s*$/i, ".asc");
+
+		for (var i = 1; i < 10; i++) {
+			if (fso.FileExists(fsn))
+				fsn = r.replace(/\.csv\s*$/i, "." + i.toString() + ".asc");
+			else
+				break;
+		}
+
+		var ts = fso.OpenTextFile(r);
+		var tso = fso.OpenTextFile(fsn, 2, true);
+
+		var ss = "";
+		var warned = false;
+		
+		while (!ts.atEndOfStream)
+		{
+			line = ts.ReadLine();
+
+			if (-1 == line.search(/([^,]+,){5}/))
+			{
+				if (!warned) {
+					wsh.popup("有些行不是用5个逗号分隔的，请确认正确编辑了文件再执行！", 0, "CSV文件格式不对", 0);
+					warned = true;
+				}
+			}
+			else
+			{
+				var la = line.split(',');
+				var clen = 0;
+			
+				ss += " ".repeat(11 - la[0].length) + la[0] + ";";
+				
+				for (var j = 0; j < la[1].length; j++) {
+					if (la[1].charCodeAt(j) > 65535) {
+						wsh.popup("不是预期的格式，请联系作者！", 0, "CSV文件格式不对", 0);
+						WScript.Quit(2);
+					}
+					else if (la[1].charCodeAt(j) > 255)
+						clen += 2;
+					else
+						clen += 1;
+				}
+
+				ss +=  la[1] + " ".repeat(32 - clen) + ";";
+				ss += " ".repeat(6 - la[2].length) + la[2] + ";";
+				ss += " ".repeat(11 - la[3].length) + la[3] + ";";
+				ss += " ".repeat(6 - la[4].length) + la[4] + ";";
+				ss += " ".repeat(6 - la[5].length) + la[5] + ";";
+
+				tso.WriteLine(ss);
+				ss = "";
+			}
+		}
+
+		wsh.popup("生成的asc文件为：" + fsn, 0, "完成", 0);
+	]]>
+	</script>
+
+</job>
