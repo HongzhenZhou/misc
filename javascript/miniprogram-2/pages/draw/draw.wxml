@@ -1,0 +1,93 @@
+<!--pages/draw/draw.wxml-->
+<view class="scontainer">
+    <view class="vtext">
+        <rich-text class="text" nodes="{{rpt}}"></rich-text>
+    </view>
+    <!--view wx:if="{{!isDisposed}}" class="switcher">
+    <button bindtap="init" wx:if="{{!isLoaded}}" type="primary">加载图表</button>
+    <button bindtap="dispose" wx:if="{{isLoaded && !isDisposed}}" type="warn">释放图表</button>
+    </view-->
+
+    <!--view class="charts-box" style="height: {{w1}}px"><canvas class="charts" id= "c1" type="2d" bindtap="tap" style="height: {{w1}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w2}}px"><canvas class="charts" id="c2" type="2d" bindtap="tap" style="height: {{w2}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w3}}px"><canvas class="charts" id="c3" type="2d" bindtap="tap" style="height: {{w3}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w4}}px"><canvas class="charts" id="c4" type="2d" bindtap="tap" style="height: {{w4}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w5}}px"><canvas class="charts" id="c5" type="2d" bindtap="tap" style="height: {{w5}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w6}}px"><canvas class="charts" id="c6" type="2d" bindtap="tap" style="height: {{w6}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w7}}px"><canvas class="charts" id="c7" type="2d" bindtap="tap" style="height: {{w7}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w8}}px"><canvas class="charts" id="c8" type="2d" bindtap="tap" style="height: {{w8}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w9}}px"><canvas class="charts" id="c9" type="2d" bindtap="tap" style="height: {{w9}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w10}}px"><canvas class="charts" id="c10" type="2d" bindtap="tap" style="height: {{w10}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w11}}px"><canvas class="charts" id="c11" type="2d" bindtap="tap" style="height: {{w11}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w12}}px"><canvas class="charts" id="c12" type="2d" bindtap="tap" style="height: {{w12}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w13}}px"><canvas class="charts" id="c13" type="2d" bindtap="tap" style="height: {{w13}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w14}}px"><canvas class="charts" id="c14" type="2d" bindtap="tap" style="height: {{w14}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w15}}px"><canvas class="charts" id="c15" type="2d" bindtap="tap" style="height: {{w15}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w16}}px"><canvas class="charts" id="c16" type="2d" bindtap="tap" style="height: {{w16}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w17}}px"><canvas class="charts" id="c17" type="2d" bindtap="tap" style="height: {{w17}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w18}}px"><canvas class="charts" id="c18" type="2d" bindtap="tap" style="height: {{w18}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w19}}px"><canvas class="charts" id="c19" type="2d" bindtap="tap" style="height: {{w19}}px"></canvas></view>
+    <view class="charts-box" style="height: {{w20}}px"><canvas class="charts" id="c20" type="2d" bindtap="tap" style="height: {{w20}}px"></canvas></view-->
+
+    <text class="title" wx:if="{{w1 > 0}}">{{w1t}}</text>
+    <view class="charts-box" style="height: {{w1}}rpx"><canvas class="charts" id="c1" type="2d" bindtap="tap" style="height: {{w1}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w2 > 0}}">{{w2t}}</text>
+    <view class="charts-box" style="height: {{w2}}rpx"><canvas class="charts" id="c2" type="2d" bindtap="tap" style="height: {{w2}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w3 > 0}}">{{w3t}}</text>
+    <view class="charts-box" style="height: {{w3}}rpx"><canvas class="charts" id="c3" type="2d" bindtap="tap" style="height: {{w3}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w4 > 0}}">{{w4t}}</text>
+    <view class="charts-box" style="height: {{w4}}rpx"><canvas class="charts" id="c4" type="2d" bindtap="tap" style="height: {{w4}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w5 > 0}}">{{w5t}}</text>
+    <view class="charts-box" style="height: {{w5}}rpx"><canvas class="charts" id="c5" type="2d" bindtap="tap" style="height: {{w5}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w6 > 0}}">{{w6t}}</text>
+    <view class="charts-box" style="height: {{w6}}rpx"><canvas class="charts" id="c6" type="2d" bindtap="tap" style="height: {{w6}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w7 > 0}}">{{w7t}}</text>
+    <view class="charts-box" style="height: {{w7}}rpx"><canvas class="charts" id="c7" type="2d" bindtap="tap" style="height: {{w7}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w8 > 0}}">{{w8t}}</text>
+    <view class="charts-box" style="height: {{w8}}rpx"><canvas class="charts" id="c8" type="2d" bindtap="tap" style="height: {{w8}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w9 > 0}}">{{w9t}}</text>
+    <view class="charts-box" style="height: {{w9}}rpx"><canvas class="charts" id="c9" type="2d" bindtap="tap" style="height: {{w9}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w10 > 0}}">{{w10t}}</text>
+    <view class="charts-box" style="height: {{w10}}rpx"><canvas class="charts" id="c10" type="2d" bindtap="tap" style="height: {{w10}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w11 > 0}}">{{w11t}}</text>
+    <view class="charts-box" style="height: {{w11}}rpx"><canvas class="charts" id="c11" type="2d" bindtap="tap" style="height: {{w11}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w12 > 0}}">{{w12t}}</text>
+    <view class="charts-box" style="height: {{w12}}rpx"><canvas class="charts" id="c12" type="2d" bindtap="tap" style="height: {{w12}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w13 > 0}}">{{w13t}}</text>
+    <view class="charts-box" style="height: {{w13}}rpx"><canvas class="charts" id="c13" type="2d" bindtap="tap" style="height: {{w13}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w14 > 0}}">{{w14t}}</text>
+    <view class="charts-box" style="height: {{w14}}rpx"><canvas class="charts" id="c14" type="2d" bindtap="tap" style="height: {{w14}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w15 > 0}}">{{w15t}}</text>
+    <view class="charts-box" style="height: {{w15}}rpx"><canvas class="charts" id="c15" type="2d" bindtap="tap" style="height: {{w15}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w16 > 0}}">{{w16t}}</text>
+    <view class="charts-box" style="height: {{w16}}rpx"><canvas class="charts" id="c16" type="2d" bindtap="tap" style="height: {{w16}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w17 > 0}}">{{w17t}}</text>
+    <view class="charts-box" style="height: {{w17}}rpx"><canvas class="charts" id="c17" type="2d" bindtap="tap" style="height: {{w17}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w18 > 0}}">{{w18t}}</text>
+    <view class="charts-box" style="height: {{w18}}rpx"><canvas class="charts" id="c18" type="2d" bindtap="tap" style="height: {{w18}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w19 > 0}}">{{w19t}}</text>
+    <view class="charts-box" style="height: {{w19}}rpx"><canvas class="charts" id="c19" type="2d" bindtap="tap" style="height: {{w19}}rpx"></canvas></view>
+
+    <text class="title" wx:if="{{w20 > 0}}">{{w20t}}</text>
+    <view class="charts-box" style="height: {{w20}}rpx"><canvas class="charts" id="c20" type="2d" bindtap="tap" style="height: {{w20}}rpx"></canvas></view>
+
+    <view class="useless"></view>
+</view>

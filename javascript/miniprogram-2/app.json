@@ -1,0 +1,18 @@
+{
+  "pages": [
+      "pages/index/index",
+      "pages/logs/logs",
+      "pages/draw/draw"
+  ],
+  "window": {
+      "pageOrientation": "portrait",
+      "backgroundTextStyle": "light",
+      "navigationBarBackgroundColor": "#ffffe0",
+      "navigationBarTitleText": "A股财报分析",
+      "navigationBarTextStyle": "black"
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "resizable": false,
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
