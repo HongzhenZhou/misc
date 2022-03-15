@@ -137,12 +137,14 @@ Page({
             let chart = undefined;
 
             if (charts[cid] === undefined) {
+                //console.log("init " + cid)
                 chart = echarts.init(canvas, null, {
                     width: width,
                     height: height,
                     devicePixelRatio: dpr 
                 });
             } else {
+                //console.log("reuse " + cid)
                 chart = charts[cid];
                 chart.clear();
             }
@@ -186,7 +188,8 @@ Page({
                 } : {
                     //offset: 10,
                     type: 'category',
-                    boundaryGap: false,
+                    //boundaryGap: false,
+                    boundaryGap: ["1%", "1%"],
                     data: categories,
                     axisLine: {
                         show: true,
@@ -271,6 +274,7 @@ Page({
     dispose() {
         for (let c in charts) {
             if (charts.hasOwnProperty(c) && charts[c] !== undefined) {
+                //console.log("dispose")
                 charts[c].dispose();
                 charts[c] = undefined;
             }
