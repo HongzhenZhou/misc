@@ -1,0 +1,23 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="search-top">
+    <view class="search-left">
+      <text class="search-hint">股票代码:</text>
+      <input class="search-input" value="{{searchString}}" maxlength="7" placeholder="数字或字母" disabled="{{searchDoing}}" bindconfirm="doSearch" bindinput="doCheck"/>
+    </view>
+    <button class="search-btn" type="primary" disabled="{{searchDoing}}" focus size="mini" bindtap="doSearch">查询</button>
+  </view>
+  <view class="select-picker" style="height: {{pickerHeight}}px">
+    <picker bindchange="changePick" bindcancel="cancelPick" disabled="{{disablePicker}}" value="{{indexPicker}}" range="{{arrayPicker}}">
+      <view class="picker">{{labelPicker}}</view>
+    </picker>
+  </view>
+
+    <!--scroll-view style="height: {{scrollViewHeight-pickerHeight}}px" enable-flex="true" scroll-y="true" wx:if="{{recStocks.length > 0}}" class="recommendation-list"-->
+    <scroll-view style="height: {{scrollViewHeight-pickerHeight}}px; top: {{50+pickerHeight}}px" scroll-y="{{!searchDoing}}" enable-flex="true" class="recommendation-list">
+          <view wx:for="{{recStocks}}" wx:key="sid" data-id="{{item.sid}}" style="background-color: {{item.idx % 2 == 0 ? 'lightblue' : 'lightyellow'}}" class="list-recs" bindtap="{{searchDoing ? '' : 'onClickOne'}}">
+            <text class="list-sname">{{item.sname}}</text>
+            <text class="list-sid">{{item.sid}}</text>
+          </view>
+    </scroll-view>
+</view>

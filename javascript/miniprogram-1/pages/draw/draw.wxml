@@ -1,0 +1,31 @@
+<!--pages/draw/draw.wxml-->
+<view class="scontainer">
+    <view class="vtext">
+        <rich-text class="text" nodes="{{rpt}}"></rich-text>
+    </view>
+    <view wx:if="{{!isDisposed}}" class="switcher">
+    <button bindtap="init" wx:if="{{!isLoaded}}" type="primary">加载图表</button>
+    <button bindtap="dispose" wx:if="{{isLoaded && !isDisposed}}" type="warn">释放图表</button>
+    </view>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w1 : 1}}px" type="2d" canvas-id="c1" id="c1" ec="{{ ec1 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w2 : 1}}px" type="2d" canvas-id="c2" id="c2" ec="{{ ec2 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w3 : 1}}px" type="2d" canvas-id="c3" id="c3" ec="{{ ec3 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w4 : 1}}px" type="2d" canvas-id="c4" id="c4" ec="{{ ec4 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w5 : 1}}px" type="2d" canvas-id="c5" id="c5" ec="{{ ec5 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w6 : 1}}px" type="2d" canvas-id="c6" id="c6" ec="{{ ec6 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w7 : 1}}px" type="2d" canvas-id="c7" id="c7" ec="{{ ec7 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w8 : 1}}px" type="2d" canvas-id="c8" id="c8" ec="{{ ec8 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w9 : 1}}px" type="2d" canvas-id="c9" id="c9" ec="{{ ec9 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w10 : 1}}px" type="2d" canvas-id="c10" id="c10" ec="{{ ec10 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w11 : 1}}px" type="2d" canvas-id="c11" id="c11" ec="{{ ec11 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w12 : 1}}px" type="2d" canvas-id="c12" id="c12" ec="{{ ec12 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w13 : 1}}px" type="2d" canvas-id="c13" id="c13" ec="{{ ec13 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w14 : 1}}px" type="2d" canvas-id="c14" id="c14" ec="{{ ec14 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w15 : 1}}px" type="2d" canvas-id="c15" id="c15" ec="{{ ec15 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w16 : 1}}px" type="2d" canvas-id="c16" id="c16" ec="{{ ec16 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w17 : 1}}px" type="2d" canvas-id="c17" id="c17" ec="{{ ec17 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w18 : 1}}px" type="2d" canvas-id="c18" id="c18" ec="{{ ec18 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w19 : 1}}px" type="2d" canvas-id="c19" id="c19" ec="{{ ec19 }}"></ec-canvas>
+    <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w20 : 1}}px" type="2d" canvas-id="c20" id="c20" ec="{{ ec20 }}"></ec-canvas>
+    <view class="useless"></view>
+</view>
