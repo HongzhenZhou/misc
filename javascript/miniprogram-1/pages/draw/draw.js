@@ -1039,17 +1039,26 @@ Page({
             let enlog = false;
             let dislog = false;
 
-            for (let k = 0; k < jlr.length; k++) {
+            for (let k = jlr.length - 1; k >= 0; k--) {
+                let i = 0;
                 let j = cq - k - 1;
                 let len = ylen;
                 if (j < 0) {
                     j += 4;
-                    len--;
+                    jlr[k].unshift(null);
+                    i = 1;
                 }
 
-                for (let i = 0; i < len; i++, j += 4) {
-                    if (j >= this.data.sheets[1].data.length || (k > 0 && j + 1 >= this.data.sheets[1].data.length))
+                for (; i < len; i++, j += 4) {
+                    if (j >= this.data.sheets[1].data.length) {
+                        jlr[k].unshift(null);
                         break;
+                    } 
+
+                    if (j + 1 == this.data.sheets[1].data.length && k > 0) {
+                        jlr[k].unshift(null);
+                        break;
+                    }
 
                     let ps1 = this.data.sheets[1].data[j];
                     let ps2 = k > 0 ? this.data.sheets[1].data[j + 1] : null;
@@ -1072,10 +1081,12 @@ Page({
                 }
             }
 
+            /*
             if (cq < 4) {
                 for (let k = 3; k + 1 > cq; k--) 
                     jlr[k].push(null);
             }
+            */
 
             if (enlog)
                 data.title += "-对数";
@@ -1104,17 +1115,26 @@ Page({
             let dislog = false;
             let lmax = 0;
 
-            for (let k = 0; k < jlr.length; k++) {
+            for (let k = jlr.length - 1; k >= 0; k--) {
+                let i = 0;
                 let j = cq - k - 1;
                 let len = ylen;
                 if (j < 0) {
                     j += 4;
-                    len--;
+                    jlr[k].unshift(null);
+                    i = 1;
                 }
 
-                for (let i = 0; i < len; i++, j += 4) {
-                    if (j >= this.data.sheets[1].data.length || j + 4 + (cq > 1 ? 1 : 0) >= this.data.sheets[1].data.length)
+                for (; i < len; i++, j += 4) {
+                    if (j >= this.data.sheets[1].data.length) {
+                        jlr[k].unshift(null);
                         break;
+                    } 
+
+                    if (j + 4 + (cq > 1 ? 1 : 0) >= this.data.sheets[1].data.length) {
+                        jlr[k].unshift(null);
+                        break;
+                    }
 
                     let t1 = cq > 1 ? 
                         (this.data.sheets[1].data[j].ps_031 ? this.data.sheets[1].data[j].ps_031 : 0) - 
@@ -1145,9 +1165,9 @@ Page({
                 }
             }
 
-            if (cq < 4) {
-                for (let k = 3; k + 1 > cq; k--) 
-                    jlr[k].push(null);
+            for (let k = 0; k < jlr.length; k++) {
+                if (jlr[k].length > lmax) 
+                    jlr[k] = jlr[k].slice(jlr[k].length - lmax);
             }
 
             if (enlog)
@@ -1176,17 +1196,26 @@ Page({
             let enlog = false;
             let dislog = false;
 
-            for (let k = 0; k < jlr.length; k++) {
+            for (let k = jlr.length - 1; k >= 0; k--) {
                 let j = cq - k - 1;
+                let i = 0;
                 let len = ylen;
                 if (j < 0) {
                     j += 4;
-                    len--;
+                    jlr[k].unshift(null);
+                    i = 1;
                 }
 
-                for (let i = 0; i < len; i++, j += 4) {
-                    if (j >= this.data.sheets[1].data.length || (k > 0 && j + 1 >= this.data.sheets[1].data.length))
+                for (; i < len; i++, j += 4) {
+                    if (j >= this.data.sheets[1].data.length) {
+                        jlr[k].unshift(null);
                         break;
+                    } 
+
+                    if (j + 1 == this.data.sheets[1].data.length && k > 0) {
+                        jlr[k].unshift(null);
+                        break;
+                    }
 
                     let ps1 = this.data.sheets[1].data[j];
                     let ps2 = k > 0 ? this.data.sheets[1].data[j + 1] : null;
@@ -1209,10 +1238,12 @@ Page({
                 }
             }
 
+            /*
             if (cq < 4) {
                 for (let k = 3; k + 1 > cq; k--) 
                     jlr[k].push(null);
             }
+            */
 
             if (enlog)
                 data.title += "-对数";
@@ -1242,17 +1273,26 @@ Page({
             let ps = this.data.sheets[1];
             let lmax = 0;
 
-            for (let k = 0; k < jlr.length; k++) {
+            for (let k = jlr.length - 1; k >= 0; k--) {
+                let i = 0;
                 let j = cq - k - 1;
                 let len = ylen;
                 if (j < 0) {
                     j += 4;
-                    len--;
+                    jlr[k].unshift(null);
+                    i = 1;
                 }
 
-                for (let i = 0; i < len; i++, j += 4) {
-                    if (j >= ps.data.length || j + 4 + (cq > 1 ? 1 : 0) >= ps.data.length)
+                for (; i < len; i++, j += 4) {
+                    if (j >= ps.data.length) {
+                        jlr[k].unshift(null);
                         break;
+                    } 
+
+                    if (j + 4 + (cq > 1 ? 1 : 0) >= ps.data.length) {
+                        jlr[k].unshift(null);
+                        break;
+                    }
 
                     let t1 = cq > 1 ? 
                         (ps.data[j].ps_001 ? ps.data[j].ps_001 : ps.data[j].ps_002 ? ps.data[j].ps_002 : 0) - 
@@ -1283,9 +1323,9 @@ Page({
                 }
             }
 
-            if (cq < 4) {
-                for (let k = 3; k + 1 > cq; k--) 
-                    jlr[k].push(null);
+            for (let k = 0; k < jlr.length; k++) {
+                if (jlr[k].length > lmax) 
+                    jlr[k] = jlr[k].slice(jlr[k].length - lmax);
             }
 
             if (enlog)
@@ -1317,8 +1357,8 @@ Page({
                 let bs = this.data.sheets[0].data[j];
                 let ps = this.data.sheets[1].data[j];
 
-                roe.unshift(floatDiv(100 * ps.ps_031, bs.bs_080));
-                roa.unshift(floatDiv(100 * ps.ps_030, bs.bs_038));
+                roe.unshift(ps.ps_031 && bs.bs_080 ? floatDiv(100 * ps.ps_031, bs.bs_080) : null);
+                roa.unshift(ps.ps_030 && bs.bs_038 ? floatDiv(100 * ps.ps_030, bs.bs_038) : null);
 
                 j += (i == 0 ? cq : 4);
             }

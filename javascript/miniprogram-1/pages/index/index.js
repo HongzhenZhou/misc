@@ -42,43 +42,50 @@ Page({
         url: "https://gitee.com/wo3nibaba/d1/raw/master/best",
         timeout: 5000,
         success: res => {
-          if (res.statusCode == 200 && res.header["Content-Type"] && res.header["Content-Type"].indexOf("text/plain") >= 0) {
+          if (res.statusCode == 200 && res.header["Content-Type"] && res.header["Content-Type"].indexOf("text/plain") >= 0 && res.data) {
             let sa = res.data.trim().split('\n')
             sa = sa.filter((item, index, sa) => {
               return sa.indexOf(item, 0) === index;
             });
-            sa.sort()
-            let sb = sa.map((s, i) => {
+            sa.sort();
+            let sb = [];
+            sa.forEach((s, i) => {
               let sc = s.split(':')
-              return {"sid": sc[0].trim(), "sname": sc[1].trim(), "idx": i}
+
+              if (sc && sc.length == 2)
+                return sb.push({"sid": sc[0].trim(), "sname": sc[1].trim(), "idx": i});
             })
+            
             //console.log(sb)
             if (sb && sb.length > 0)
               this.setData({recStocks: sb})
-            /*
             else {
               wx.request({
                 //daily
-                url: "https://pastebin.com/g3ND7JKK",
+                url: "https://gitee.com/wo3nibaba/d1/raw/master/today",
                 timeout: 5000,
                 success: res => {
-                  if (res.statusCode == 200 && res.header["Content-Type"] && res.header["Content-Type"].indexOf("text/plain") >= 0) {
+                  if (res.statusCode == 200 && res.header["Content-Type"] && res.header["Content-Type"].indexOf("text/plain") >= 0 && res.data && res.data.indexOf(":") > 0) {
                     let sa = res.data.trim().split('\n')
                     sa = sa.filter((item, index, sa) => {
                       return sa.indexOf(item, 0) === index;
                     });
-                    sa.sort()
-                    let sb = sa.map((s, i) => {
+                    sa.sort();
+                    let sb = [];
+                    sa.forEach((s, i) => {
                       let sc = s.split(':')
-                      return {"sid": sc[0].trim(), "sname": sc[1].trim(), "idx": i}
+
+                      if (sc && sc.length == 2)
+                        return sb.push({"sid": sc[0].trim(), "sname": sc[1].trim(), "idx": i});
                     })
-                    //console.log(sb)
+                    
+                    //console.log(sb);
                     if (sb && sb.length > 0)
                       this.setData({recStocks: sb})
                   }
                 }
               }); 
-            }*/
+            }
           } else {
             /*
             wx.request({

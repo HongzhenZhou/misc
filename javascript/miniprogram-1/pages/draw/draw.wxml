@@ -5,7 +5,7 @@
     </view>
     <view wx:if="{{!isDisposed}}" class="switcher">
     <button bindtap="init" wx:if="{{!isLoaded}}" type="primary">加载图表</button>
-    <button bindtap="dispose" wx:if="{{isLoaded && !isDisposed}}" type="warn">释放图表</button>
+    <!--button bindtap="dispose" wx:if="{{isLoaded && !isDisposed}}" type="warn">释放图表</button-->
     </view>
     <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w1 : 1}}px" type="2d" canvas-id="c1" id="c1" ec="{{ ec1 }}"></ec-canvas>
     <ec-canvas wx:if="{{!isDisposed}}" style="height: {{isLoaded ? w2 : 1}}px" type="2d" canvas-id="c2" id="c2" ec="{{ ec2 }}"></ec-canvas>
