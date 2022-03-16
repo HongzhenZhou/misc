@@ -15,6 +15,7 @@ Page({
     scrollViewHeight: 0,
     searchString: "",
     searchDone: false,
+    isgood: false,
     recStocks: []
   },
   // 事件处理函数
@@ -58,7 +59,7 @@ Page({
             
             //console.log(sb)
             if (sb && sb.length > 0)
-              this.setData({recStocks: sb})
+              this.setData({recStocks: sb, isgood: true})
             else {
               wx.request({
                 //daily
