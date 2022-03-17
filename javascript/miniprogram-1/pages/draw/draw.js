@@ -1615,23 +1615,20 @@ Page({
                 data = {categories: [], series: [], legend:[], title: "应收款和存货周转天数(天)"};
                 let ys = [];
                 let ch = [];
-                let days = 360;
     
                 for (let i = 0, j = 0; i < ylen; i++) {
                     let ps = this.data.sheets[1].data[j];
                     let lbs = this.data.sheets[0].data[j + (i == 0 ? cq : 4)];
                     let bs = this.data.sheets[0].data[j];
                     let t = 0, t1 = 0, t2 = 0, t3 = 0;
-
-                    days = (i == 0 && cq < 4) ? cq * 91 : 365;
     
                     t1 = floatDiv((bs.bs_015 ? bs.bs_015 : 0) + (lbs ? (lbs.bs_015 ? lbs.bs_015 : 0) : (bs.bs_015 ? bs.bs_015 : 0)), 2);
-                    t = ps.ps_007 ? floatDiv(days * t1, ps.ps_007) : null;
+                    t = ps.ps_007 ? floatDiv(((i == 0 && cq < 4) ? cq * 90 : 360) * t1, ps.ps_007) : null;
                     ch.unshift(t);
 
                     t1 = floatDiv((bs.bs_005 ? bs.bs_005 : 0) + (bs.bs_006 ? bs.bs_006 : 0) + (lbs ? ((lbs.bs_005 ? lbs.bs_005 : 0) + (lbs.bs_006 ? lbs.bs_006 : 0)) : ((bs.bs_005 ? bs.bs_005 : 0) + (bs.bs_006 ? bs.bs_006 : 0))), 2);
                     t2 = ps.ps_002 ? ps.ps_002 : ps.ps_001 ? ps.ps_001 : 0;
-                    t = (t2 && t2 != 0) ? floatDiv(days * t1, t2) : null; 
+                    t = (t2 && t2 != 0) ? floatDiv(((i == 0 && cq < 4) ? cq * 91 : 365) * t1, t2) : null; 
                     ys.unshift(t);
 
                     j += (i == 0 ? cq : 4);
