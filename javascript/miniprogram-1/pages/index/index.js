@@ -62,7 +62,7 @@ Page({
             
             //console.log(sb)
             if (sb && sb.length > 0)
-              this.setData({recStocks: sb, isgood: true})
+              this.setData({recStocks: Array.from(new Set(sb)), isgood: true})
             else {
               wx.request({
                 //daily
