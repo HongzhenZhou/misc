@@ -73,6 +73,7 @@ function floatDiv(a1, a2)
 
 Page({
     data: {
+        os: 'android',
         h: 0,
         w: 0,
 
@@ -127,7 +128,32 @@ Page({
         name: "",
         sheets: [],
         total: 0,
-        rpt: ""
+        rpt: "",
+
+        wid: 0,
+        pindex: 0,
+        parray: [
+            "总资产和股东权益", //1
+            "往年流动资产各项占比",
+            "近期流动资产按季度各项占比",
+            "往年负债结构分析",
+            "按季度近期负债结构分析",
+            "资产负债率和有息负债率", //6
+            "流动资产及负债占比",
+            "流动比率和速动比率",
+            "商誉、无形、油气、生物资产",
+            "年营业收入和归母净利润",
+            "营收和归母净利润年增速", //11
+            "归母分季度净利润",
+            "归母净利润分季度增速",
+            "分季度营业收入",
+            "营业收入分季度增速",
+            "ROE和ROA", //16
+            "非经营性收入占净利润比", 
+            "各项费用占收入比",
+            "净利率和毛利率",
+            "现金流", //20
+        ]
     },
 
     initChart(cid, title, legend, categories, series, rev = true, y2 = false, enlog = false) {
@@ -311,12 +337,26 @@ Page({
         })
     },
         
-    init: function () {
-        this.setData({
-            isLoaded: true,
-        });
+    changePic(e) {
+        const v = parseInt(e.detail.value, 10);
+        
+        if (this.data.pindex != v) {
+            this.setData({pindex: v, wid: v + 1});
+            this.init();
+        }
+      },
 
-        wx.showToast({title: "绘制图形中", icon: "loading", duration: 2000})
+    init: function () {
+        if (!this.data.isLoaded) 
+            this.setData({isLoaded: true,});
+
+        let wid = this.data.wid;
+        
+        if (this.data.os == "ios" && wid == 0)
+            wid = 1;
+
+        if (wid == 0)
+            wx.showToast({title: "绘制图形中", icon: "loading", duration: 2000})
 
         let cq = this.data.sheets[0].ym[0] % 10;
         let t = 1 + Math.ceil((this.data.total - cq) / 4);
@@ -346,6 +386,7 @@ Page({
 
         /////////////////////////////////
         //c1: 总资产和股东权益
+        if (wid == 0 || wid == 1) {
         try {
             data = {categories: [], series: [], legend:[], title: "总资产和股东权益(元)"};
             let zzc = [];
@@ -372,9 +413,11 @@ Page({
             console.log(e);
             this.setData({w1: 0});
         }
+        }
 
         /////////////////////////////////////
         //c2: 往年流动资产各项占比
+        if (wid == 0 || wid == 2) {
         try {
             data = {categories: [], series: [], legend:[], title: "往年流动资产各项占比(元)"};
             let bs003 = [];
@@ -448,15 +491,17 @@ Page({
             data.series.push({type: "bar", stack: "total", name: "买入返售金融资产", data: bs014});
             data.series.push({type: "bar", stack: "total", name: "拆出资金", data: cczj});
             //this.initChart("c2", data.title, data.legend, data.categories, data.series);
-            this.initChart("c2", data.title, data.legend, data.categories, data.series, false, false);
+            this.initChart(wid == 0 ? "c2" : "c1", data.title, data.legend, data.categories, data.series, false, false);
         }
         catch (e) {
             console.log(e);
             this.setData({w2: 0});
         }
+        }
 
         //////////////////////////////////////
         //c3: 近期流动资产按季度各项占比
+        if (wid == 0 || wid == 3) {
         try {
             data = {categories: [], series: [], legend:[], title: "近期流动资产按季度各项占比(元)"};
             let bs003 = [];
@@ -526,16 +571,18 @@ Page({
             data.series.push({type: "bar", stack: "total", name: "衍生金融资产", data: bs004});
             data.series.push({type: "bar", stack: "total", name: "买入返售金融资产", data: bs014});
             data.series.push({type: "bar", stack: "total", name: "拆出资金", data: cczj});
-            this.initChart("c3", data.title, data.legend, data.categories, data.series);
+            this.initChart(wid == 0 ? "c3" : "c1", data.title, data.legend, data.categories, data.series);
             //this.initChart("c3", data.title, data.legend, data.categories, data.series, false, false);
         }
         catch (e) {
             console.log(e);
             this.setData({w3: 0});
         }
+    }
 
         /////////////////////////////////////
         //c4: 往年负债结构分析
+        if (wid == 0 || wid == 4) {
         try {
             data = {categories: [], series: [], legend:[], title: "往年负债结构分析(元)"};
             let bs042 = [];
@@ -632,15 +679,17 @@ Page({
             data.series.push({type: "bar", stack: "total", name: "租赁负债", data: zlfz});
 
             //this.initChart("c4", data.title, data.legend, data.categories, data.series);
-            this.initChart("c4", data.title, data.legend, data.categories, data.series, false, false);
+            this.initChart(wid == 0 ? "c4" : "c1", data.title, data.legend, data.categories, data.series, false, false);
         }
         catch (e) {
             console.log(e);
             this.setData({w4: 0});
         }
+    }
 
         /////////////////////////////////////
         //c5: 按季度近期负债结构分析
+        if (wid == 0 || wid == 5) {
         try {
             data = {categories: [], series: [], legend:[], title: "按季度近期负债结构分析(元)"};
             let bs042 = [];
@@ -733,16 +782,18 @@ Page({
             data.series.push({type: "bar", stack: "total", name: "衍生金融负债", data: bs043});
             data.series.push({type: "bar", stack: "total", name: "租赁负债", data: zlfz});
 
-            this.initChart("c5", data.title, data.legend, data.categories, data.series);
+            this.initChart(wid == 0 ? "c5" : "c1", data.title, data.legend, data.categories, data.series);
             //this.initChart("c5", data.title, data.legend, data.categories, data.series, false, false);
         }
         catch (e) {
             console.log(e);
             this.setData({w5: 0});
         }
+    }
 
         /////////////////////////////////////
         //c6: 资产负债率和有息负债率
+        if (wid == 0 || wid == 6) {
         try {
             data = {categories: [], series: [], legend:[], title: "资产负债率和有息负债率(%)"};
             let zcfzl = [];
@@ -773,15 +824,17 @@ Page({
             data.series.push({type: "line", name: "资产负债率", data: zcfzl});
             data.series.push({yAxisIndex: 1, type: "line", name: "有息负债率", data: yxfzl});
 
-            this.initChart("c6", data.title, data.legend, data.categories, data.series, false, true);
+            this.initChart(wid == 0 ? "c6" : "c1", data.title, data.legend, data.categories, data.series, false, true);
         }
         catch (e) {
             console.log(e);
             this.setData({w6: 0});
         }
+    }
 
         /////////////////////////////////////
         //c7: 流动资产及负债占总资产及负债比
+        if (wid == 0 || wid == 7) {
         try {
             data = {categories: [], series: [], legend:[], title: "流动资产及负债占比(%)"};
             let ldzczb = [];
@@ -803,15 +856,17 @@ Page({
             data.series.push({type: "line", name: "流动资产占总资产比", data: ldzczb});
             data.series.push({yAxisIndex: 1, type: "line", name: "流动负债占总负债比", data: ldfzzb});
 
-            this.initChart("c7", data.title, data.legend, data.categories, data.series, false, true);
+            this.initChart(wid == 0 ? "c7" : "c1", data.title, data.legend, data.categories, data.series, false, true);
         }
         catch (e) {
             console.log(e);
             this.setData({w7: 0});
         }
+    }
 
         /////////////////////////////////////
         //c8:  流动比率和速动比率
+        if (wid == 8 || wid == 0) {
         try {
             data = {categories: [], series: [], legend:[], title: "流动比率和速动比率(%)"};
             let ldbl = [];
@@ -840,16 +895,17 @@ Page({
             data.series.push({type: "line", name: "速动比率", data: sdbl});
 
             //this.initChart("c8", data.title, data.legend, data.categories, data.series, false, true);
-            this.initChart("c8", data.title, data.legend, data.categories, data.series, false);
+            this.initChart(wid == 0? "c8" : "c1", data.title, data.legend, data.categories, data.series, false);
         }
         catch (e) {
             console.log(e);
             this.setData({w8: 0});
         }
-
+    }
 
         /////////////////////////////////////
         //c9: 商誉、无形、油气、生物资产
+        if (wid == 9 || wid == 0) {
         try {
             data = {categories: [], series: [], legend:[], title: "商誉、无形、油气、生物资产(元)"};
             let bs029 = [];
@@ -890,15 +946,17 @@ Page({
             data.series.push({type: "bar", stack: "total", name: "商誉", data: bs033});
 
             //this.initChart("c9", data.title, data.legend, data.categories, data.series);
-            this.initChart("c9", data.title, data.legend, data.categories, data.series, false, false);
+            this.initChart(wid == 0 ? "c9" : "c1", data.title, data.legend, data.categories, data.series, false, false);
         }
         catch (e) {
             console.log(e);
             this.setData({w9: 0});
         }
+    }
 
         /////////////////////////////////////
         //c10: 年营业收入和归母净利润(元)
+        if (wid == 0 || wid == 10) {
         try {
             data = {categories: [], series: [], legend:[], title: "年营业收入和归母净利润(元)"};
             let sr = [];
@@ -947,16 +1005,17 @@ Page({
             data.series.push({type: "line", name: "营业收入", data: sr});
             data.series.push({yAxisIndex:1, type: "line", name: "净利润", data: jlr});
 
-            this.initChart("c10", data.title, data.legend, data.categories, data.series, false, true, enlog);
+            this.initChart(wid == 0 ? "c10" : "c1", data.title, data.legend, data.categories, data.series, false, true, enlog);
         }
         catch (e) {
             console.log(e);
             this.setData({w10: 0});
         }
-
+    }
         
         /////////////////////////////////////
         //c11: 营业收入和归母净利润年增速
+        if (wid == 0 || wid == 11) {
         try {
             data = {categories: [], series: [], legend:[], title: "营收和归母净利润年增速(%)"};
             let sr = [];
@@ -1023,16 +1082,18 @@ Page({
             //data.series.push({yAxisIndex:1, type: "bar", name: "净利润增速", data: jlr});
             data.series.push({type: "bar", name: "净利润增速", data: jlr});
 
-            this.initChart("c11", data.title, data.legend, data.categories, data.series, false, false, enlog);
+            this.initChart(wid == 0 ? "c11" : "c1", data.title, data.legend, data.categories, data.series, false, false, enlog);
         }
         catch (e) {
             //console.log(e);
             console.log(e);
             this.setData({w11: 0});
         }
+    }
 
         /////////////////////////////////////
         //c12: 归母分季度净利润
+        if (wid == 0 || wid == 12) {
         try {
             data = {categories: [], series: [], legend:[], title: "归母分季度净利润(元)"};
             let jlr = [[], [], [], []];
@@ -1098,16 +1159,18 @@ Page({
             data.series.push({type: "bar", name: "Q3净利润", data: jlr[2]});
             data.series.push({type: "bar", name: "Q4净利润", data: jlr[3]});
 
-            this.initChart("c12", data.title, data.legend, data.categories, data.series, false, false, enlog);
+            this.initChart(wid == 0 ? "c12" : "c1", data.title, data.legend, data.categories, data.series, false, false, enlog);
         }
         catch (e) {
             //console.log(e);
             console.log(e);
             this.setData({w12: 0});
         }
+    }
 
         /////////////////////////////////////
         //c13: 归母净利润分季度增速
+        if (wid == 13 || wid == 0) {
         try {
             data = {categories: [], series: [], legend:[], title: "归母净利润分季度增速(%)"};
             let jlr = [[], [], [], []];
@@ -1180,16 +1243,18 @@ Page({
             data.series.push({type: "bar", name: "Q3净利润增速", data: jlr[2]});
             data.series.push({type: "bar", name: "Q4净利润增速", data: jlr[3]});
 
-            this.initChart("c13", data.title, data.legend, data.categories, data.series, false, false, enlog);
+            this.initChart(wid == 0 ? "c13" : "c1", data.title, data.legend, data.categories, data.series, false, false, enlog);
         }
         catch (e) {
             //console.log(e);
             console.log(e);
             this.setData({w13: 0});
         }
+    }
 
         /////////////////////////////////////
         //c14: 分季度营业收入
+        if (wid == 0 || wid == 14) {
         try {
             data = {categories: [], series: [], legend:[], title: "分季度营业收入(元)"};
             let jlr = [[], [], [], []];
@@ -1255,16 +1320,18 @@ Page({
             data.series.push({type: "bar", name: "Q3营业收入", data: jlr[2]});
             data.series.push({type: "bar", name: "Q4营业收入", data: jlr[3]});
 
-            this.initChart("c14", data.title, data.legend, data.categories, data.series, false, false, enlog);
+            this.initChart(wid == 0 ? "c14" : "c1", data.title, data.legend, data.categories, data.series, false, false, enlog);
         }
         catch (e) {
             //console.log(e);
             console.log(e);
             this.setData({w14: 0});
         }
+    }
 
         /////////////////////////////////////
         //c15: 营业收入分季度增速
+        if (wid == 15 || wid == 0) {
         try {
             data = {categories: [], series: [], legend:[], title: "营业收入分季度增速(%)"};
             let jlr = [[], [], [], []];
@@ -1338,16 +1405,18 @@ Page({
             data.series.push({type: "bar", name: "Q3营业收入增速", data: jlr[2]});
             data.series.push({type: "bar", name: "Q4营业收入增速", data: jlr[3]});
 
-            this.initChart("c15", data.title, data.legend, data.categories, data.series, false, false, enlog);
+            this.initChart(wid == 0 ? "c15" : "c1", data.title, data.legend, data.categories, data.series, false, false, enlog);
         }
         catch (e) {
             //console.log(e);
             console.log(e);
             this.setData({w15: 0});
         }
+    }
 
         /////////////////////////////////////
         //c16: ROE和ROA
+        if (wid == 16 || wid == 0) {
         try {
             data = {categories: [], series: [], legend:[], title: "ROE和ROA"};
             let roe = [];
@@ -1375,15 +1444,17 @@ Page({
             data.series.push({type: "line", name: "ROE", data: roe});
             data.series.push({type: "line", name: "ROA", data: roa});
 
-            this.initChart("c16", data.title, data.legend, data.categories, data.series, false, false);
+            this.initChart(wid == 0 ? "c16" : "c1", data.title, data.legend, data.categories, data.series, false, false);
         }
         catch (e) {
             console.log(e);
             this.setData({w16: 0});
         }
+    }
 
         /////////////////////////////////////
         //c17: 非经营性收入占净利润比
+        if (wid == 17 || wid == 0) {
         try {
             data = {categories: [], series: [], legend:[], title: "非经营性收入占净利润比(%)"};
             let fjxx = [];
@@ -1404,15 +1475,17 @@ Page({
             ];
             data.series.push({type: "bar", name: "非经营性收入占比", data: fjxx});
 
-            this.initChart("c17", data.title, data.legend, data.categories, data.series);
+            this.initChart(wid == 0 ? "c17" : "c1", data.title, data.legend, data.categories, data.series);
         }
         catch (e) {
             console.log(e);
             this.setData({w17: 0});
         }
+    }
 
         /////////////////////////////////////
         //c18: 销售、管理、财务和研发费用占收入比
+        if (wid == 18 || wid == 0) {
         try {
             data = {categories: [], series: [], legend:[], title: "销售、管理、财务和研发费用占收入比(%)"};
             let ps016 = [];
@@ -1441,15 +1514,17 @@ Page({
             data.series.push({type: "bar", stack: "total", name: "财务费用占比", data: ps018});
             data.series.push({type: "bar", stack: "total", name: "研发费用占比", data: ps015});
 
-            this.initChart("c18", data.title, data.legend, data.categories, data.series, false, false);
+            this.initChart(wid == 0 ? "c18" : "c1", data.title, data.legend, data.categories, data.series, false, false);
         }
         catch (e) {
             console.log(e);
             this.setData({w18: 0});
         }
+    }
 
         /////////////////////////////////////
         //c19: 净利率和毛利率
+        if (wid == 19 || wid == 0) {
         try {
             data = {categories: [], series: [], legend:[], title: "净利率和毛利率(%)"};
             let mlv = [];
@@ -1476,15 +1551,17 @@ Page({
             data.series.push({type: "line", name: "毛利率", data: mlv});
             data.series.push({type: "line", name: "净利率", data: jlv});
 
-            this.initChart("c19", data.title, data.legend, data.categories, data.series, false, false);
+            this.initChart(wid == 0 ? "c19" : "c1", data.title, data.legend, data.categories, data.series, false, false);
         }
         catch (e) {
             console.log(e);
             this.setData({w19: 0});
         }
+    }
 
         /////////////////////////////////////
         //c20: 现金流
+        if (wid == 20 || wid == 0) {
         try {
             data = {categories: [], series: [], legend:[], title: "现金流(元)"};
             let jy = [];
@@ -1520,12 +1597,13 @@ Page({
             data.series.push({type: "bar", name: "融资现金流", data: rz});
             data.series.push({type: "bar", name: "自由现金流", data: zy});
 
-            this.initChart("c20", data.title, data.legend, data.categories, data.series, false, false);
+            this.initChart(wid == 0 ? "c20" : "c1", data.title, data.legend, data.categories, data.series, false, false);
         }
         catch (e) {
             console.log(e);
             this.setData({w20: 0});
         }
+    }
 
         return null;
     }

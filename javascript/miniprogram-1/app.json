@@ -8,7 +8,7 @@
         "pageOrientation": "portrait",
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#ffffe0",
-        "navigationBarTitleText": "A股财报分析",
+        "navigationBarTitleText": "财报可视化",
         "navigationBarTextStyle": "black"
     },
     "lazyCodeLoading": "requiredComponents",

@@ -74,14 +74,40 @@ ec-canvas {
   margin-bottom: 10px;
   align-items: center;
 }
-button {
+.pic {
   margin: 10px;
   border-radius: 10rpx;
   text-align: center;
   font-family: cursive;
-  /*
-  background-color: green;
-  color: white;
-  */
   box-shadow: 4rpx 4rpx 4rpx 4rpx gray;
+}
+.vsec {
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.tpic {
+  width: 100%;
+  text-align: center;
+  font-family: cursive;
+  font-size:large;
+  /*margin: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px; */
+  font-weight: bold;
+  color: darkgreen;
+}
+.psec {
+  width: 100%;
+  text-align: left center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: lightyellow;
+  color: red;
+  font-style: italic;
+  font-size: medium;
+  font-weight: bold;
 }

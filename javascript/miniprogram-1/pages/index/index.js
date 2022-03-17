@@ -12,6 +12,7 @@ Page({
     pickerHeight: 0,
     windowHeight: 0,
     windowWidth: 0,
+    os: 'android',
     scrollViewHeight: 0,
     searchString: "",
     searchDone: false,
@@ -30,9 +31,11 @@ Page({
  
     var h = wx.getSystemInfoSync().windowHeight;
     var w = wx.getSystemInfoSync().windowWidth;
+    var os = wx.getSystemInfoSync().platform;
     this.setData({
       windowWidth: w,
       windowHeight: h,
+      os: os,
       scrollViewHeight: h - 80, 
     });
 

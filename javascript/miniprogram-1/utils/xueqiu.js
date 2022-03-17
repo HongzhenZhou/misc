@@ -508,7 +508,7 @@ var xueqiu = {
 
         const rpt = this.parseSheets(that, n);
         const ss = JSON.stringify({sheets: this.sheets});
-        wx.navigateTo({url: `/pages/draw/draw?sid=${this.ssid}&name=${this.sname}&sheets=${ss}&total=${n}&rpt=${rpt}&h=${that.data.windowHeight}&w=${that.data.windowWidth}`})
+        wx.navigateTo({url: `/pages/draw/draw?sid=${this.ssid}&name=${this.sname}&sheets=${ss}&total=${n}&rpt=${rpt}&h=${that.data.windowHeight}&w=${that.data.windowWidth}&os=${that.data.os}`})
         this.clearState(that, "");
     },
     checkNAdd(v, t) {

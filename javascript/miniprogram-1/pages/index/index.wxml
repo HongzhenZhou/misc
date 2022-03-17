@@ -2,10 +2,10 @@
 <view class="container">
   <view class="search-top">
     <view class="search-left">
-      <text class="search-hint">股票代码:</text>
-      <input class="search-input" value="{{searchString}}" maxlength="7" placeholder="数字或字母" disabled="{{searchDoing}}" bindconfirm="doSearch" bindinput="doCheck"/>
+      <text class="search-hint">请输入:</text>
+      <input class="search-input" value="{{searchString}}" maxlength="7" placeholder="6位数字或拼音缩写" disabled="{{searchDoing}}" bindconfirm="doSearch" bindinput="doCheck"/>
     </view>
-    <button class="search-btn" type="primary" disabled="{{searchDoing}}" focus size="mini" bindtap="doSearch">查询</button>
+    <button class="search-btn" type="primary" disabled="{{searchDoing}}" focus size="mini" bindtap="doSearch">查找</button>
   </view>
   <view class="select-picker" style="height: {{pickerHeight}}px">
     <picker bindchange="changePick" bindcancel="cancelPick" disabled="{{disablePicker}}" value="{{indexPicker}}" range="{{arrayPicker}}">
