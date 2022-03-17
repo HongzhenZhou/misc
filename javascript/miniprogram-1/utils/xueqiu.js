@@ -310,7 +310,7 @@ var xueqiu = {
                         return true
                     })
 
-                    if (!sa) {
+                    if (!sa || sa.length == 0) {
                         wx.showToast({title: "未找到相符股票", icon: "none"})
                         return
                     }
@@ -322,6 +322,7 @@ var xueqiu = {
                         that.arrayPicker = sida;
                         that.setData({arrayPicker: sida, labelPicker: "有多只股票，请点击红色文字处来选择=>", pickerHeight: 30, disablePicker: false, searchDoing: true})
                     } else {
+                        //console.log(sa[0])
                         let s1 = sa[0].code.trim().slice(2);
                         if (!this.checkExclude(s1, sa[0].name.trim())) {
                             that.setData({searchDoing: true});

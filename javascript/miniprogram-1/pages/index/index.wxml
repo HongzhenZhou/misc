@@ -3,7 +3,7 @@
   <view class="search-top">
     <view class="search-left">
       <text class="search-hint">请输入:</text>
-      <input class="search-input" value="{{searchString}}" maxlength="7" placeholder="6位数字或拼音缩写" disabled="{{searchDoing}}" bindconfirm="doSearch" bindinput="doCheck"/>
+      <input class="search-input" value="{{searchString}}" maxlength="7" placeholder="拼音缩写或6位数字" disabled="{{searchDoing}}" bindconfirm="doSearch" bindinput="doCheck"/>
     </view>
     <button class="search-btn" type="primary" disabled="{{searchDoing}}" focus size="mini" bindtap="doSearch">查找</button>
   </view>
