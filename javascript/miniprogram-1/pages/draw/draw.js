@@ -23,7 +23,8 @@ var charts = {
     "c17": undefined,
     "c18": undefined,
     "c19": undefined,
-    "c20": undefined //20
+    "c20": undefined, //20
+    "c21": undefined,
 };
 
 function floatDiv(a1, a2)
@@ -98,7 +99,6 @@ Page({
         w19: 300,
         w20: 300,
         w21: 300,
-        w22: 300,
 
         ec1: {lazyLoad: true},
         ec2: {lazyLoad: true},
@@ -120,6 +120,7 @@ Page({
         ec18: {lazyLoad: true},
         ec19: {lazyLoad: true},
         ec20: {lazyLoad: true},
+        ec21: {lazyLoad: true},
 
         isLoaded: false,
         isDisposed: false,
@@ -153,6 +154,7 @@ Page({
             "各项费用占收入比",
             "净利率和毛利率",
             "现金流", //20
+            "应收款和存货周转天数",
         ]
     },
 
@@ -334,6 +336,7 @@ Page({
             w18: this.data.w,
             w19: this.data.w,
             w20: this.data.w,
+            w21: this.data.w,
         })
     },
         
@@ -1604,6 +1607,49 @@ Page({
             this.setData({w20: 0});
         }
     }
+
+        /////////////////////////////////////
+        //c21: 应收款和存货周转天数
+        if (wid == 0 || wid == 21) {
+            try {
+                data = {categories: [], series: [], legend:[], title: "应收款和存货周转天数(天)"};
+                let ys = [];
+                let ch = [];
+                let days = 360;
+    
+                for (let i = 0, j = 0; i < ylen; i++) {
+                    let ps = this.data.sheets[1].data[j];
+                    let lbs = this.data.sheets[0].data[j + (i == 0 ? cq : 4)];
+                    let bs = this.data.sheets[0].data[j];
+                    let t = 0, t1 = 0, t2 = 0, t3 = 0;
+
+                    days = (i == 0 && cq < 4) ? cq * 91 : 365;
+    
+                    t1 = floatDiv((bs.bs_015 ? bs.bs_015 : 0) + (lbs ? (lbs.bs_015 ? lbs.bs_015 : 0) : (bs.bs_015 ? bs.bs_015 : 0)), 2);
+                    t = ps.ps_007 ? floatDiv(days * t1, ps.ps_007) : null;
+                    ch.unshift(t);
+
+                    t1 = floatDiv((bs.bs_005 ? bs.bs_005 : 0) + (bs.bs_006 ? bs.bs_006 : 0) + (lbs ? ((lbs.bs_005 ? lbs.bs_005 : 0) + (lbs.bs_006 ? lbs.bs_006 : 0)) : ((bs.bs_005 ? bs.bs_005 : 0) + (bs.bs_006 ? bs.bs_006 : 0))), 2);
+                    t2 = ps.ps_002 ? ps.ps_002 : ps.ps_001 ? ps.ps_001 : 0;
+                    t = (t2 && t2 != 0) ? floatDiv(days * t1, t2) : null; 
+                    ys.unshift(t);
+
+                    j += (i == 0 ? cq : 4);
+                }
+
+                data.categories = rya;
+                data.legend = ["应收款周转天数", "存货周转天数"
+                ];
+                data.series.push({type: "line", name: "应收款周转天数", data: ys});
+                data.series.push({yAxisIndex:1, type: "line", name: "存货周转天数", data: ch});
+    
+                this.initChart(wid == 0 ? "c21" : "c1", data.title, data.legend, data.categories, data.series, false, true);
+            }
+            catch (e) {
+                console.log(e);
+                this.setData({w21: 0});
+            }
+        }
 
         return null;
     }
