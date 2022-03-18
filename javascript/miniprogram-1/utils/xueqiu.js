@@ -367,7 +367,34 @@ var xueqiu = {
     },
     fetchData(sid, that, idx) {
         const c = sid.charAt(0);
-        let toexit = false;
+        
+        if (c == "6" || c == "3" || c == "0") {
+            try {
+                let vcache = wx.getStorageSync(sid);
+                if (vcache) {
+                    let t = JSON.parse(vcache);
+                    let qs = (t.ym % 10);
+                    let ys = (t.ym - qs) / 10;
+                    let d = new Date();
+                    let yc = d.getFullYear();
+                    let ms = d.getMonth();
+                    let qc = ms < 3 ? 1 : ms < 6 ? 2 : ms < 9 ? 3 : 4;
+
+                    if ((ys == yc && qs + 1 == qc) || (ys + 1 == yc && qs == 4 && qc == 1)) {
+                        this.ssid = sid;
+                        this.sname = t.name;
+                        this.sheets = t.sheets;
+                        //console.log(`use cached data ${sid}, ${ys}=${yc}, ${qs}=${qc}`);
+                        this.readyDraw(that, true);
+                        return;
+                    } else {
+                        wx.removeStorage({key: sid});
+                    }
+                }
+            } catch (e) {
+                //console.log(e)
+            }
+        }
 
         sid = (c == "6" ? (this.numTry = 0, this.ssid = sid, "SH") : (c == "0" || c == "3") ? (this.numTry = 0, this.ssid = sid, "SZ") : "") + sid;
         if (this.ssid == "" || sid.indexOf(this.ssid) <= 0)
@@ -486,9 +513,17 @@ var xueqiu = {
 
         return false;
     },
-    readyDraw(that) {
-        if (!this.sheets[0].done || !this.sheets[1].done || !this.sheets[2].done) 
+    readyDraw(that, iscache = false) {
+        if (!this.sheets[0].done || !this.sheets[1].done || !this.sheets[2].done) {
+            if (iscache) {
+                try {
+                    wx.removeStorageSync(this.ssid);
+                } catch (e) {
+                }
+                this.clearState(that, this.sname + "发生缓存错误，请稍后再试");
+            }
             return;
+        }
 
         let n = Math.min(this.sheets[0].n, this.sheets[1].n, this.sheets[2].n);
 
@@ -502,13 +537,37 @@ var xueqiu = {
         }
 
         if (n < 8) {
-            console.log(n);
+            //console.log(n);
+            if (iscache) {
+                try {
+                    wx.removeStorageSync(this.ssid);
+                } catch (e) {
+                }
+            }
             this.clearState(that, this.sname + "是新股，不能对其进行有意义的分析");
             return;
         }
 
         const rpt = this.parseSheets(that, n);
         const ss = JSON.stringify({sheets: this.sheets});
+        if (!iscache) {
+            let qs = (this.sheets[0].ym[0] % 10);
+            let ys = (this.sheets[0].ym[0] - qs) / 10;
+            let d = new Date();
+            let yc = d.getFullYear();
+            let ms = d.getMonth();
+            let qc = ms < 3 ? 1 : ms < 6 ? 2 : ms < 9 ? 3 : 4;
+                    
+            if ((ys == yc && qs + 1 == qc) || (ys + 1 == yc && qs == 4 && qc == 1)) {
+                try {
+                    //console.log(`save data cache ${this.ssid}`)
+                    wx.setStorageSync(this.ssid, JSON.stringify({name: this.sname, sheets: this.sheets, ym: this.sheets[0].ym[0]}));
+                } catch (e) {
+                    if (ss.length < 1024000)
+                        wx.clearStorage();
+                }
+            }
+        }
         wx.navigateTo({url: `/pages/draw/draw?sid=${this.ssid}&name=${this.sname}&sheets=${ss}&total=${n}&rpt=${rpt}&h=${that.data.windowHeight}&w=${that.data.windowWidth}&os=${that.data.os}`})
         this.clearState(that, "");
     },

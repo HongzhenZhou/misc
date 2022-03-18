@@ -29,15 +29,32 @@ Page({
     if (!xueqiu.cook) 
       xueqiu.getCook()
  
-    var h = wx.getSystemInfoSync().windowHeight;
-    var w = wx.getSystemInfoSync().windowWidth;
-    var os = wx.getSystemInfoSync().platform;
+    let h = wx.getSystemInfoSync().windowHeight;
+    let w = wx.getSystemInfoSync().windowWidth;
+    let os = wx.getSystemInfoSync().platform;
+
     this.setData({
       windowWidth: w,
       windowHeight: h,
       os: os,
       scrollViewHeight: h - 80, 
     });
+
+    try {
+      let bcache = wx.getStorageSync('best');
+      if (bcache) {
+        let t = JSON.parse(bcache);
+        let cd = new Date();
+        let d = new Date(t.time);
+        //console.log(`${cd.getFullYear()} vs ${d.getFullYear()}, ${cd.getMonth()} vs ${d.getMonth()},  ${cd.getDate()} vs ${d.getDate()}, ${cd.getHours()} vs ${d.getHours()}`);
+        if (cd.getFullYear() == d.getFullYear() && cd.getMonth() == d.getMonth() && 
+          ((cd.getDate() == d.getDate() && d.getHours() >= 10 && cd.getHours() >= 10) || (cd.getDate() == d.getDate() + 1 && d.getHours() >= 10 && cd.getHours() < 10))) {
+            //console.log("use best cache")
+            return this.setData(t);
+        }
+      }
+    } catch (e) {
+    }
 
     if (wx.request) {
       wx.request({
@@ -61,9 +78,12 @@ Page({
             })
             
             //console.log(sb)
-            if (sb && sb.length > 0)
-              this.setData({recStocks: Array.from(new Set(sb)), isgood: true})
-            else {
+            if (sb && sb.length > 0) {
+              const ta = {recStocks: Array.from(new Set(sb)), isgood: true, time: new Date()};
+              this.setData(ta);
+              //console.log("save best")
+              wx.setStorage({key: 'best', data: JSON.stringify(ta)});
+            } else {
               wx.request({
                 //daily
                 url: "https://gitee.com/wo3nibaba/d1/raw/master/today",
