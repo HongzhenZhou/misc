@@ -46,9 +46,10 @@ Page({
         let t = JSON.parse(bcache);
         let cd = new Date();
         let d = new Date(t.time);
-        //console.log(`${cd.getFullYear()} vs ${d.getFullYear()}, ${cd.getMonth()} vs ${d.getMonth()},  ${cd.getDate()} vs ${d.getDate()}, ${cd.getHours()} vs ${d.getHours()}`);
-        if (cd.getFullYear() == d.getFullYear() && cd.getMonth() == d.getMonth() && 
-          ((cd.getDate() == d.getDate() && d.getHours() >= 10 && cd.getHours() >= 10) || (cd.getDate() == d.getDate() + 1 && d.getHours() >= 10 && cd.getHours() < 10))) {
+        //console.log(`${cd.getUTCFullYear()} vs ${d.getUTCFullYear()}, ${cd.getUTCMonth()} vs ${d.getUTCMonth()},  ${cd.getUTCDate()} vs ${d.getUTCDate()}, ${cd.getHours()} ${cd.getUTCHours()} vs ${d.getHours()} ${d.getUTCHours()}`);
+        if (cd.getUTCFullYear() == d.getUTCFullYear() && cd.getUTCMonth() == d.getUTCMonth() && 
+          ((cd.getUTCDate() == d.getUTCDate() && d.getUTCHours() >= 2 && cd.getUTCHours() >= 2) || 
+            (cd.getUTCDate() == d.getUTCDate() + 1 && d.getUTCHours() >= 2 && cd.getUTCHours() < 2))) {
             //console.log("use best cache")
             return this.setData(t);
         }

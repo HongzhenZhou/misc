@@ -376,8 +376,8 @@ var xueqiu = {
                     let qs = (t.ym % 10);
                     let ys = (t.ym - qs) / 10;
                     let d = new Date();
-                    let yc = d.getFullYear();
-                    let ms = d.getMonth();
+                    let yc = d.getUTCFullYear();
+                    let ms = d.getUTCMonth();
                     let qc = ms < 3 ? 1 : ms < 6 ? 2 : ms < 9 ? 3 : 4;
 
                     if ((ys == yc && qs + 1 == qc) || (ys + 1 == yc && qs == 4 && qc == 1)) {
@@ -554,8 +554,8 @@ var xueqiu = {
             let qs = (this.sheets[0].ym[0] % 10);
             let ys = (this.sheets[0].ym[0] - qs) / 10;
             let d = new Date();
-            let yc = d.getFullYear();
-            let ms = d.getMonth();
+            let yc = d.getUTCFullYear();
+            let ms = d.getUTCMonth();
             let qc = ms < 3 ? 1 : ms < 6 ? 2 : ms < 9 ? 3 : 4;
                     
             if ((ys == yc && qs + 1 == qc) || (ys + 1 == yc && qs == 4 && qc == 1)) {
