@@ -8,8 +8,8 @@
         <button class="pic" bindtap="init" wx:if="{{!isLoaded}}" type="primary">加载图表</button>
         <view class="vsec" wx:if="{{os == 'ios' && isLoaded}}">
             <text class="tpic" wx:if="{{isLoaded && os == 'ios'}}">请点击下方红字来选择不同图表</text>
-            <picker class="psec" bindchange="changePic" value="{{pindex}}" range="{{parray}}">
-                当前选择{{" -> "}}{{parray[pindex]}}
+            <picker class="psec" bindchange="changePic" value="{{pindex}}" range="{{isbank ? pbank : parray}}">
+                当前选择{{" -> "}}{{isbank ? pbank[pindex] : parray[pindex]}}
             </picker>
         </view>
     </view>

@@ -164,13 +164,17 @@ Page({
     }
   },
   changePick(e) {
+    //console.log(e.detail)
     let v = this.arrayPicker[e.detail.value].split(' ');
     if (v && v[0] && v[0].length >= 6 && v[1]) {
       if (xueqiu.checkExclude(v[0], v[1])) 
         this.setData({searchDoing: false})
       else {
         wx.showLoading({title: '数据下载中。。。'});
-        xueqiu.fetchData(v[0], this, 3)
+        if (xueqiu.checkBank(v[0], v[1]))
+          xueqiu.fetchBankData(v[0], this, 3)
+        else
+          xueqiu.fetchData(v[0], this, 3)
       }
     } else 
       this.setData({searchDoing: false})
@@ -185,9 +189,13 @@ Page({
   onClickOne(e) {
     if (e && e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.id) {
       const sid = e.currentTarget.dataset.id;
+      const sname = e.currentTarget.dataset.name;
       this.setData({searchDoing: true});
       wx.showLoading({title: '数据下载中'});
-      xueqiu.fetchData(sid, this, 3);
+      if (xueqiu.checkBank(sid, sname))
+        xueqiu.fetchBankData(sid, this, 3);
+      else
+        xueqiu.fetchData(sid, this, 3);
     }
   }
 })

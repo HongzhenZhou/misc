@@ -15,7 +15,7 @@
 
     <!--scroll-view style="height: {{scrollViewHeight-pickerHeight}}px" enable-flex="true" scroll-y="true" wx:if="{{recStocks.length > 0}}" class="recommendation-list"-->
     <scroll-view style="height: {{scrollViewHeight-pickerHeight}}px; top: {{50+pickerHeight}}px" scroll-y="{{!searchDoing}}" enable-flex="true" class="recommendation-list">
-          <view wx:for="{{recStocks}}" wx:key="sid" data-id="{{item.sid}}" style="background-color: {{item.idx % 2 == 0 ? 'lightblue' : 'lightyellow'}}" class="list-recs" bindtap="{{searchDoing ? '' : 'onClickOne'}}">
+          <view wx:for="{{recStocks}}" wx:key="sid" data-id="{{item.sid}}" data-name="{{item.sname}}" style="background-color: {{item.idx % 2 == 0 ? 'lightblue' : 'lightyellow'}}" class="list-recs" bindtap="{{searchDoing ? '' : 'onClickOne'}}">
             <icon class="list-img" type="{{isgood ? 'success' : 'warn'}}"></icon>
             <text class="list-sname">{{item.sname}}</text>
             <text class="list-sid">{{item.sid}}</text>
