@@ -1169,7 +1169,7 @@ Page({
                 }
                 data.legend = ["拨备前净利润增速"
                 ];
-                data.series.push({type: "line", name: "拨备前净利润增速", data: jlr});
+                data.series.push({type: "bar", name: "拨备前净利润增速", data: jlr});
     
                 this.initChart(wid == 0 ? "c13" : "c1", data.title, data.legend, data.categories, data.series, false);
             }
@@ -1227,7 +1227,7 @@ Page({
                 ];
                 if (enlog)
                     data.title += "-对数";
-                data.series.push({type: "line", name: "减值损失增速", data: jlr});
+                data.series.push({type: "bar", name: "减值损失增速", data: jlr});
     
                 this.initChart(wid == 0 ? "c14" : "c1", data.title, data.legend, data.categories, data.series, false, false, enlog);
             }
@@ -1276,8 +1276,8 @@ Page({
                 }
                 data.legend = ["手续费及佣金净收入增速", "非息收入增速"
                 ];
-                data.series.push({type: "line", name: "手续费及佣金净收入增速", data: sxf});
-                data.series.push({type: "line", name: "非息收入增速", data: fx});
+                data.series.push({type: "bar", name: "手续费及佣金净收入增速", data: sxf, barGap: 0});
+                data.series.push({type: "bar", name: "非息收入增速", data: fx});
     
                 this.initChart(wid == 0 ? "c15" : "c1", data.title, data.legend, data.categories, data.series, false, false);
             }
@@ -1319,7 +1319,7 @@ Page({
                 }
                 data.legend = ["业务及管理费增速"
                 ];
-                data.series.push({type: "line", name: "业务及管理费增速", data: sxf});
+                data.series.push({type: "bar", name: "业务及管理费增速", data: sxf});
     
                 this.initChart(wid == 0 ? "c16" : "c1", data.title, data.legend, data.categories, data.series, false, false);
             }
