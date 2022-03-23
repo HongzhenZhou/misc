@@ -25,6 +25,7 @@ var charts = {
     "c19": undefined,
     "c20": undefined, //20
     "c21": undefined,
+    "c22": undefined,
 };
 
 function floatDiv(a1, a2)
@@ -100,6 +101,7 @@ Page({
         w19: 300,
         w20: 300,
         w21: 300,
+        w22: 300,
 
         ec1: {lazyLoad: true},
         ec2: {lazyLoad: true},
@@ -122,6 +124,7 @@ Page({
         ec19: {lazyLoad: true},
         ec20: {lazyLoad: true},
         ec21: {lazyLoad: true},
+        ec22: {lazyLoad: true},
 
         isLoaded: false,
         isDisposed: false,
@@ -156,6 +159,7 @@ Page({
             "净利率和毛利率",
             "现金流", //20
             "应收款和存货周转天数",
+            "eps增速",
         ],
         pbank: [
             "风险加权资产收益率RORWA", //1
@@ -179,6 +183,7 @@ Page({
             "往年负债结构分析",
             "按季度近期负债结构分析", //20
             "存贷比",
+            "eps增速",
         ],
 
     },
@@ -363,6 +368,7 @@ Page({
             w19: this.data.w,
             w20: this.data.w,
             w21: this.data.w,
+            w22: this.data.w,
         })
     },
         
@@ -1638,6 +1644,46 @@ Page({
             catch (e) {
                 //console.log(e);
                 this.setData({w21: 0});
+            }
+        }
+
+        /////////////////////////////////////
+        //c22: eps增速
+        if (wid == 0 || wid == 22) {
+            try {
+                data = {categories: [], series: [], legend:[], title: "eps增速(%)"};
+                let toc = false;
+                let ys = [];
+    
+                for (let i = 0, j = 0; i < ylen; i++) {
+                    if (j + 4 >= this.data.sheets[1].data.length) {
+                        ys.unshift(null);
+                        break;
+                    }
+                    
+                    let ps = this.data.sheets[1].data[j];
+                    let lps = this.data.sheets[1].data[j + 4];
+                    if (i == 0 && !ps.ps_051 && !ps.ps_050)
+                        toc = true;
+                    let t = (lps.ps_051 || lps.ps_050) ? floatDiv(100 * ((ps.ps_051 ? ps.ps_051 : ps.ps_050) - (lps.ps_051 ? lps.ps_051 : lps.ps_050)), (lps.ps_051 ? lps.ps_051 : lps.ps_050)) : null; 
+
+                    ys.unshift(t);
+
+                    j += (i == 0 ? cq : 4);
+                }
+
+                data.categories = rya;
+                data.legend = ["eps增速"
+                ];
+                data.series.push({type: "bar", name: "eps增速", data: ys});
+    
+                this.initChart(wid == 0 ? "c22" : "c1", data.title, data.legend, data.categories, data.series, false);
+                if (toc)
+                    wx.clearStorage();
+            }
+            catch (e) {
+                //console.log(e);
+                this.setData({w22: 0});
             }
         }
 
@@ -2943,6 +2989,46 @@ Page({
             catch (e) {
                 //console.log(e);
                 this.setData({w21: 0});
+            }
+        }
+
+        /////////////////////////////////////
+        //c22: eps增速
+        if (wid == 0 || wid == 22) {
+            try {
+                data = {categories: [], series: [], legend:[], title: "eps增速(%)"};
+                let toc = false;
+                let ys = [];
+    
+                for (let i = 0, j = 0; i < ylen; i++) {
+                    if (j + 4 >= this.data.sheets[1].data.length) {
+                        ys.unshift(null);
+                        break;
+                    }
+                    
+                    let ps = this.data.sheets[1].data[j];
+                    let lps = this.data.sheets[1].data[j + 4];
+                    if (i == 0 && !ps.ps_051 && !ps.ps_050)
+                        toc = true;
+                    let t = (lps.ps_051 || lps.ps_050) ? floatDiv(100 * ((ps.ps_051 ? ps.ps_051 : ps.ps_050) - (lps.ps_051 ? lps.ps_051 : lps.ps_050)), (lps.ps_051 ? lps.ps_051 : lps.ps_050)) : null; 
+
+                    ys.unshift(t);
+
+                    j += (i == 0 ? cq : 4);
+                }
+
+                data.categories = rya;
+                data.legend = ["eps增速"
+                ];
+                data.series.push({type: "bar", name: "eps增速", data: ys});
+    
+                this.initChart(wid == 0 ? "c22" : "c1", data.title, data.legend, data.categories, data.series, false);
+                if (toc)
+                    wx.clearStorage();
+            }
+            catch (e) {
+                //console.log(e);
+                this.setData({w22: 0});
             }
         }
 

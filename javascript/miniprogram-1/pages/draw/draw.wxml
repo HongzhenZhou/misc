@@ -35,5 +35,6 @@
     <ec-canvas wx:if="{{os != 'ios'}}" style="height: {{isLoaded ? w19 : 1}}px" type="2d" canvas-id="c19" id="c19" ec="{{ ec19 }}"></ec-canvas>
     <ec-canvas wx:if="{{os != 'ios'}}" style="height: {{isLoaded ? w20 : 1}}px" type="2d" canvas-id="c20" id="c20" ec="{{ ec20 }}"></ec-canvas>
     <ec-canvas wx:if="{{os != 'ios'}}" style="height: {{isLoaded ? w21 : 1}}px" type="2d" canvas-id="c21" id="c21" ec="{{ ec21 }}"></ec-canvas>
+    <ec-canvas wx:if="{{os != 'ios'}}" style="height: {{isLoaded ? w22 : 1}}px" type="2d" canvas-id="c22" id="c22" ec="{{ ec22 }}"></ec-canvas>
     <view class="useless"></view>
 </view>

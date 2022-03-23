@@ -97,7 +97,7 @@ const sheetTables = [
         "asset_liab_ratio": "bs_100", //资产负债率 *100
         
         //"preferred_share": "bs_085", //优先股
-        //"shares": "bs_072", //股本
+        "shares": "bs_072", //股本
         //"capital_reserve": "bs_073", //资本公积
         //"treasury_stock": "bs_074", //库存股
         //"earned_surplus": "bs_076", //盈余公积
@@ -153,6 +153,8 @@ const sheetTables = [
         "net_profit_atsopc" : "ps_031",
         "minority_gal": "ps_032", //少数股东损益
         "credit_impairment_loss": "ps_040", //信用减值损失
+        "basic_eps": "ps_050",
+        "dlt_earnings_per_share": "ps_051",
     },
     {
         "ncf_from_oa" : "cf_026",
@@ -753,6 +755,7 @@ var xueqiu = {
                             for (let e in j.list[k]) {
                                 if (sheetTables[i].hasOwnProperty(e) && typeof(j.list[k][e][0]) == "number" && !isNaN(j.list[k][e][0])) {
                                     data[sheetTables[i][e]] = j.list[k][e][0];
+                                    //if (i == 1)
                                     //console.log(sheetTables[i][e] + ": " + j.list[k][e][0]);
                                 }
                             }
