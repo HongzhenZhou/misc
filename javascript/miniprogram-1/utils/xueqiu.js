@@ -851,7 +851,7 @@ var xueqiu = {
             if ((ys == yc && qs + 1 == qc) || (ys + 1 == yc && qs == 4 && qc == 1)) {
                 try {
                     //console.log(`save data cache ${this.ssid}`)
-                    wx.setStorageSync(this.ssid, JSON.stringify({name: this.sname, sheets: this.sheets, ym: this.sheets[0].ym[0], pe: this.PE, pb: this.PB, dr: this.DR}));
+                    wx.setStorageSync(this.ssid, JSON.stringify({name: this.sname, sheets: this.sheets, ym: this.sheets[0].ym[0]}));
                 } catch (e) {
                     if (ss.length < 1024000)
                         wx.clearStorage();
