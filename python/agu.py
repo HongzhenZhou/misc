@@ -110,7 +110,7 @@ else:
 	sids.apply(parse1ashare)
 	
 	while (ndone < len(sids)):
-                print(f'{len(sids) - ndone} stock need to be finished')
+                print(f'{len(sids) - ndone} stocks need to be finished')
                 sleep(5)
 
 	if len(ctx) > 0:
