@@ -14,11 +14,13 @@ parser.add_argument('--sid', '-s', type = str, help = 'stock ID')
 args = parser.parse_args()
 sid = args.sid
 ctx = ''
+ndone = 0
 
 sh = 'http://query.sse.com.cn/security/stock/downloadStockListFile.do?csrcCode=&stockCode=&areaName=&stockType=1'
 sz = 'http://www.szse.cn/api/report/ShowReport?SHOWTYPE=xlsx&CATALOGID=1110&TABKEY=tab1&random=0.4178381198138461'
 
 def parse1ashare(sid, p2s = False):
+	global ndone
 	if isinstance(sid, int) or isinstance(sid, np.int64):
 		if sid < 10:
 			sid = '00000' + str(sid) + '.SZ'
@@ -36,7 +38,8 @@ def parse1ashare(sid, p2s = False):
 	sdc = yfsi.get_data(sid, start_date='01/01/2012')[20:-3]
 	if len(sdc) < 90:
 		#print(f'{sid} too short history data')
-		exit(-1)
+		ndone += 1
+		return
 	del sdc['ticker']
 	sdc = sdc.fillna(method = 'ffill')
 	pprice = sdc['adjclose']
@@ -65,6 +68,7 @@ def parse1ashare(sid, p2s = False):
 	if p2s:
 		tsd.plot()
 		plt.show()
+	ndone += 1
 
 
 
@@ -104,8 +108,15 @@ else:
 	sids = sids.append(pd.Series(b.iloc[:, 4]), ignore_index = True, verify_integrity = True)
 
 	sids.apply(parse1ashare)
+	
+	while (ndone < len(sids)):
+                print(f'{len(sids) - ndone} stock need to be finished')
+                sleep(5)
 
-	s = smtplib.SMTP(host = 'smtp.qq.com', port = 587)
-	s.starttls()
-	s.login('@qq.com', '')
-	s.sendmail('@qq.com', ['@qq.com'], ctx)
+	if len(ctx) > 0:
+                print('sending email...')
+		s = smtplib.SMTP(host = 'smtp.qq.com', port = 587)
+		s.starttls()
+		s.login('@qq.com', '')
+		s.sendmail('@qq.com', ['@qq.com'], f'Subject: daily result\n\n{ctx}')
+		s.quit()
