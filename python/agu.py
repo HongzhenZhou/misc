@@ -67,6 +67,7 @@ def parse1ashare(sid, p2s = False):
 		print(f'-----------\n{sid} signal diff={sigdif} vol={sigvol}')
 	if p2s:
 		tsd.plot()
+		plt.title(f'{sid}')
 		plt.show()
 	ndone += 1
 
