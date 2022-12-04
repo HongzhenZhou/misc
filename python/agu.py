@@ -2,6 +2,7 @@
 
 import io
 import urllib
+import smtplib
 import argparse
 import numpy as np
 import pandas as pd
@@ -12,6 +13,7 @@ parser = argparse.ArgumentParser(usage='Inquire the price for stock, need the st
 parser.add_argument('--sid', '-s', type = str, help = 'stock ID')
 args = parser.parse_args()
 sid = args.sid
+ctx = ''
 
 sh = 'http://query.sse.com.cn/security/stock/downloadStockListFile.do?csrcCode=&stockCode=&areaName=&stockType=1'
 sz = 'http://www.szse.cn/api/report/ShowReport?SHOWTYPE=xlsx&CATALOGID=1110&TABKEY=tab1&random=0.4178381198138461'
@@ -57,6 +59,8 @@ def parse1ashare(sid, p2s = False):
 	if len(pvol) > 0 and pvol[-1] > pprice.max() / 3:
 		sigvol = 1
 	if sigdif or sigvol:
+		global ctx
+		ctx += f'-----------\n{sid} signal diff={sigdif} vol={sigvol}\n'
 		print(f'-----------\n{sid} signal diff={sigdif} vol={sigvol}')
 	if p2s:
 		tsd.plot()
@@ -101,4 +105,7 @@ else:
 
 	sids.apply(parse1ashare)
 
-
+	s = smtplib.SMTP(host = 'smtp.qq.com', port = 587)
+	s.starttls()
+	s.login('@qq.com', '')
+	s.sendmail('@qq.com', ['@qq.com'], ctx)
