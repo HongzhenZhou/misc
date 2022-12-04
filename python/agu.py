@@ -35,7 +35,7 @@ def parse1ashare(sid, p2s = False):
 		elif sid >= 600000:
 			sid = str(sid) + '.SS'
 
-	sdc = yfsi.get_data(sid, start_date='01/01/2012')[20:-3]
+	sdc = yfsi.get_data(sid, start_date='01/01/2012')[20:]
 	if len(sdc) < 90:
 		#print(f'{sid} too short history data')
 		ndone += 1
