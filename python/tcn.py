@@ -6,11 +6,9 @@ import pandas as pd
 import yahoo_fin.stock_info as yfsi
 import matplotlib.pyplot as plt
 from darts import TimeSeries
-from darts.models import RNNModel
 from darts.models import TCNModel
-from darts.utils import timeseries_generation as tg
 
-np.random.seed(42)
+np.random.seed(1)
 
 parser = argparse.ArgumentParser(usage='Inquire the price for stock, need the stock ID argument')
 parser.add_argument('--sid', '-s', type = str, required = True, help = 'stock ID')
