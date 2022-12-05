@@ -15,6 +15,7 @@ np.random.seed(42)
 parser = argparse.ArgumentParser(usage='Inquire the price for stock, need the stock ID argument')
 parser.add_argument('--sid', '-s', type = str, required = True, help = 'stock ID')
 parser.add_argument('--epochs', '-e', type = int, help = 'epochs')
+parser.add_argument('-p', action='store_true')
 args = parser.parse_args()
 sid = args.sid
 epochs = args.epochs if args.epochs else 600
@@ -62,22 +63,9 @@ if sid and len(sid) > 6:
 	print(f'>>>> {epochs} {yfd.index[-1]}')
 	print('+++++')
 	print(p)
-	#tsd.plot()
-	#p.plot(label = 'predict')
-	#plt.show()
+	if args.p:
+		tsd.plot()
+		p.plot(label = f'{sid} forecast the next close price after {yfd.index[-1]}')
+		plt.show()
 	print('-----------------------')
-
-	#tsd['vol'] = pvol
-	#tsd['diff'] = pdiff
-	#tsd['width'] = pwidth
-	#tsdd = TimeSeries.from_dataframe(tsd)
-	
-	#m = RNNModel(4)
-	#m.fit(tsdd, epochs = 100)
-	#p = m.predict(1)
-	#print('-----------------------')
-	#print(p)
-	#print('-----------------------')
-
-
 
