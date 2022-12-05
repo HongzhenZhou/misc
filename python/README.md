@@ -6,4 +6,4 @@ DWS_Server  -- An enhancement for DamnWebScanner, https://github.com/swisskyrepo
 
 agu.py      -- Search tipping point for A shares
 
-tcn.py      -- Predict the close price for an A share on the next trading day
+tcn.py      -- Predict the close price for an A share stock on the next trading day
