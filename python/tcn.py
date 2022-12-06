@@ -32,11 +32,10 @@ if sid and len(sid) > 6:
 	yfd = yfd[yfd.index.isin(hld.index)]
 	sdc = yfd[:]
 	sdc['time'] = sdc.index
-	del sdc['ticker']
 	sdc.index = pd.RangeIndex(0, len(sdc))
 	sdc = sdc.fillna(method = 'ffill')
 	hld.index = pd.RangeIndex(0, len(hld))
-	hld = hld.fillna(method = 'bfill')
+	hld = hld.fillna(method = 'ffill')
 
 	pprice = sdc['adjclose']
 	pprice.name = 'price'
