@@ -14,7 +14,7 @@ random.seed(42)
 np.random.seed(42)
 torch.manual_seed(42)
 
-parser = argparse.ArgumentParser(usage='Inquire the price for stock, need the stock ID argument')
+parser = argparse.ArgumentParser(usage='Inquire the price for an A share stock, need the stock ID argument')
 parser.add_argument('--sid', '-s', type = str, required = True, help = 'stock ID')
 parser.add_argument('--epochs', '-e', type = int, help = 'epochs')
 parser.add_argument('-p', action='store_true')
