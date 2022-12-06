@@ -22,7 +22,13 @@ args = parser.parse_args()
 sid = args.sid
 epochs = args.epochs if args.epochs else 400
 
-if sid and len(sid) > 6:
+if sid and len(sid) >= 6:
+	if len(sid) == 6:
+                if int(sid[0]) < 6:
+                        sid += '.SZ'
+                else:
+                        sid += '.SS'
+
 	yfd = yfsi.get_data(sid, start_date='02/11/2013')[20:]
 	if len(yfd) < 90:
 		print(f'Too short history array data for {sid}')
