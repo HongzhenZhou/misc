@@ -20,7 +20,7 @@ parser.add_argument('--epochs', '-e', type = int, help = 'epochs')
 parser.add_argument('-p', action='store_true')
 args = parser.parse_args()
 sid = args.sid
-epochs = args.epochs if args.epochs else 600
+epochs = args.epochs if args.epochs else 400
 
 if sid and len(sid) > 6:
 	yfd = yfsi.get_data(sid, start_date='02/11/2013')[20:]
