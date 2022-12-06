@@ -24,7 +24,7 @@ epochs = args.epochs if args.epochs else 400
 
 if sid and len(sid) >= 6:
 	if len(sid) == 6:
-                sid += '.SZ' if int(sid[0]) < 6 else sid += '.SS'
+                sid += '.SZ' if int(sid[0]) < 6 else '.SS'
 
 	yfd = yfsi.get_data(sid, start_date='02/11/2013')[20:]
 	if len(yfd) < 90:
