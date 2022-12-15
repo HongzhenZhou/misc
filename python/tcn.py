@@ -27,7 +27,7 @@ if sid and len(sid) >= 6:
 		sid += '.SZ' if int(sid[0]) < 6 else '.SS'
 
 	yfd = yfsi.get_data(sid, start_date='02/11/2013')[20:]
-	if len(yfd) < 90:
+	if len(yfd) < 180:
 		print(f'Too short history array data for {sid}')
 		exit(1)
 	print(f'{sid} last close price on {yfd.index[-1]}: {round(yfd["close"][-1], 2)}')
