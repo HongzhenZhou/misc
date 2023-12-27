@@ -1,10 +1,8 @@
 #!/bin/awk -f
-#MALLOC_TRACE=/var/tmp/mtrace.log
-#MALLOC_TRACE_=/var/tmp/mtrace.log
-#LD_PRELOAD=/lib/libc_malloc_debug.so.0
 
 BEGIN {
 	has_str2num = (strtonum (x)) == "0"
+	ferr = 0
 }
 
 function hex2num(s) {
@@ -39,7 +37,7 @@ function printh(p, s, v) {
 $3 == "+" || $3 == ">" { 
 	if ($5 != "" && $2 != "") {
 		i = hex2num($5)
-		if (i > 0) {
+		if (i >= 0) {
 			addr[$4] = i
 			c = $2
 			p = 0
@@ -56,17 +54,33 @@ $3 == "-" || $3 == "<" {
 	if ($4 in addr && call[$4] != "") {
 		delete addr[$4]
 		delete call[$4]
+	} else {
+		if ($4 != "0" && $4 != "0x0") {
+			c = $2
+			p = 0
+			do {
+				c = substr(c, p + 1)
+				p = index(c, "/")
+			} while (p > 0)
+			if (c in wrong)
+				wrong[c] += 1
+			else
+				wrong[c] = 1
+			ferr = 1
+		}
 	}
 }
 
 END {
 	total = 0
 	for (a in addr) {
-		if (call[a] in leak)
-			leak[call[a]] += addr[a]
-		else
-			leak[call[a]] = addr[a]
-		total += addr[a]
+		if (addr[a] > 0) {
+			if (call[a] in leak)
+				leak[call[a]] += addr[a]
+			else
+				leak[call[a]] = addr[a]
+			total += addr[a]
+		}
 	}
 	if (total > 0) {
 		print "\tcaller\t\t\tallcated bytes"
@@ -75,5 +89,11 @@ END {
 			printh(c, "\t=>\t", leak[c])
 		}
 		printh("\nTotal potential leaks:", "\t\t", total)
+	}
+	if (ferr == 1) {
+		print "------------------------------\nwrong arguments passed to free():"
+		for (c in wrong) {
+			printf "%s\t\t%d\n", c, wrong[c]
+		}
 	}
 }
