@@ -46,7 +46,7 @@ substr($0, 1, 1) != " " && ($2 == "+" || $2 == ">") {
 	}
 	if ($3 != 0) {
 		if ($1 in addr) {
-			print "duplicate alloced addr", $1, $2, line[$i], NR
+			print "** duplicate alloced addr", $1, $2, line[$i], NR
 			exit
 		}
 		addr[$i] = $3
