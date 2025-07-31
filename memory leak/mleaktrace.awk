@@ -3,6 +3,8 @@
 BEGIN {
 	has_str2num = (strtonum (x)) == "0"
 	ferr = 0
+	last_attr = ""
+	curr_stack = ""
 }
 
 function hex2num(s) {
@@ -34,66 +36,75 @@ function printh(p, s, v) {
 		printf "%s%s%d B\n", p, s, v
 }
 
-$3 == "+" || $3 == ">" { 
-	if ($5 != "" && $2 != "") {
-		i = hex2num($5)
-		if (i >= 0) {
-			addr[$4] = i
-			c = $2
-			p = 0
-			do {
-				c = substr(c, p + 1)
-				p = index(c, "/")
-			} while (p > 0)
-			call[$4] = c
-		}
+substr($0, 1, 1) != " " && ($2 == "+" || $2 == ">") {
+	if (last_addr && curr_stack) {
+		stack[last_addr] = curr_stack
+		if (curr_stack in caller)
+			caller[curr_stack] += addr[last_addr]
+		else
+			caller[curr_stack] = addr[last_addr]
 	}
+	if ($3 != 0) {
+		if ($1 in addr) {
+			print "duplicate alloced addr", $1, $2, line[$i], NR
+			exit
+		}
+		addr[$i] = $3
+		line[$1] = NR
+	}
+	last_addr = $1
+	curr_stack = ""
 }
 
-$3 == "-" || $3 == "<" {
-	if ($4 in addr && call[$4] != "") {
-		delete addr[$4]
-		delete call[$4]
-	} else {
-		if ($4 != "0" && $4 != "0x0") {
-			c = $2
-			p = 0
-			do {
-				c = substr(c, p + 1)
-				p = index(c, "/")
-			} while (p > 0)
-			if (c in wrong)
-				wrong[c] += 1
-			else
-				wrong[c] = 1
-			ferr = 1
+substr($0, 1, 1) != " "  && ($2 == "-" || $2 == "<") {
+	if (last_addr && curr_stack) {
+		stack[last_addr] = curr_stack
+		if (curr_stack in caller)
+			caller[curr_stack] += addr[last_addr]
+		else
+			caller[curr_stack] = addr[last_addr]
+	}
+	if ($1 in addr) {
+		if ($1 in stack) {
+			if (sstack[$1] in caller) {
+				caller[stack[$1]] -= addr[$1]
+				if (caller[stack[$1]] == 0)
+					delete caller[stack[$1]]
 		}
+		delete addr[$1]
+		delete line[$1]
+	} else {
+		if ($1 in wrong)
+			print "duplicate addr to free", $2, wrong[$1], NR
+		wrong[$1] = NR
+		ferr++
+	}
+	last_addr = ""
+	curr_stack = ""
+}
+
+substr($0, 1, 1) == " " {
+	if (last_addr) {
+		if (!curr_stack)
+			curr_stack = $0 "\n"
+		else
+			curr_stack = curr_stack $0 "\n"
 	}
 }
 
 END {
 	total = 0
 	for (a in addr) {
-		if (addr[a] > 0) {
-			if (call[a] in leak)
-				leak[call[a]] += addr[a]
-			else
-				leak[call[a]] = addr[a]
-			total += addr[a]
-		}
+		total += caller[a]
+		print "\nLeaked", caller[a], "bytes: "
+		print a
 	}
-	if (total > 0) {
-		print "\tcaller\t\t\tallcated bytes"
-		PROCINFO["sorted_in"] = "@val_num_desc"
-		for (c in leak) {
-			printh(c, "\t=>\t", leak[c])
-		}
+	if (total > 0)
 		printh("\nTotal potential leaks:", "\t\t", total)
 	}
-	if (ferr == 1) {
-		print "------------------------------\nwrong arguments passed to free():"
-		for (c in wrong) {
-			printf "%s\t\t%d\n", c, wrong[c]
-		}
+	if (ferr > 0) {
+		print "------------------------------\nwrong arguments passed to free()", ferr, "times:"
+		for (c in wrong)
+			printf "  line %dn", wrong[c]
 	}
 }
