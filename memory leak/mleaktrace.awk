@@ -101,7 +101,6 @@ END {
 	}
 	if (total > 0)
 		printh("\nTotal potential leaks:", "\t\t", total)
-	}
 	if (ferr > 0) {
 		print "------------------------------\nwrong arguments passed to free()", ferr, "times:"
 		for (c in wrong)
