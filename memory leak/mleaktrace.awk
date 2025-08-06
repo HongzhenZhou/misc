@@ -36,28 +36,8 @@ function printh(p, s, v) {
 		printf "%s%s%d B\n", p, s, v
 }
 
-substr($0, 1, 1) != " " && ($2 == "+" || $2 == ">") {
-	if (last_addr && curr_stack) {
-		stack[last_addr] = curr_stack
-		if (curr_stack in caller)
-			caller[curr_stack] += addr[last_addr]
-		else
-			caller[curr_stack] = addr[last_addr]
-	}
-	if ($3 != 0) {
-		if ($1 in addr) {
-			print "** duplicate alloced addr", $1, $2, line[$i], NR
-			exit
-		}
-		addr[$i] = $3
-		line[$1] = NR
-	}
-	last_addr = $1
-	curr_stack = ""
-}
-
-substr($0, 1, 1) != " "  && ($2 == "-" || $2 == "<") {
-	if (last_addr && curr_stack) {
+substr($0, 1, 1) != " " && $2 == "+" {
+	if (last_addr && curr_stack && last_addr in addr && addr[last_addr] > 0) {
 		stack[last_addr] = curr_stack
 		if (curr_stack in caller)
 			caller[curr_stack] += addr[last_addr]
@@ -65,19 +45,40 @@ substr($0, 1, 1) != " "  && ($2 == "-" || $2 == "<") {
 			caller[curr_stack] = addr[last_addr]
 	}
 	if ($1 in addr) {
+		print "duplicate alloced addr", $1, $2, line[$1], NR
+		exit
+	}
+	if ($3 > 0) {
+		addr[$1] = $3
+		line[$1] = NR
+	}
+	last_addr = $1
+	curr_stack = ""
+}
+
+substr($0, 1, 1) != " "  && $2 == "-" {
+	if (last_addr && curr_stack && last_addr in addr && addr[last_addr] > 0) {
+		stack[last_addr] = curr_stack
+		if (curr_stack in caller)
+			caller[curr_stack] += addr[last_addr]
+		else
+			caller[curr_stack] = addr[last_addr]
+	}
+	if ($1 in addr && addr[$1] > 0) {
 		if ($1 in stack) {
-			if (sstack[$1] in caller) {
+			if (stack[$1] in caller) {
 				caller[stack[$1]] -= addr[$1]
 				if (caller[stack[$1]] == 0)
 					delete caller[stack[$1]]
+				else if (caller[stack[$1]] < 0) {
+					print "Something wrong happened", line[$1]
+					exit
+				}
+			}
+			delete stack[$1]
 		}
 		delete addr[$1]
 		delete line[$1]
-	} else {
-		if ($1 in wrong)
-			print "duplicate addr to free", $2, wrong[$1], NR
-		wrong[$1] = NR
-		ferr++
 	}
 	last_addr = ""
 	curr_stack = ""
@@ -94,16 +95,30 @@ substr($0, 1, 1) == " " {
 
 END {
 	total = 0
-	for (a in addr) {
-		total += caller[a]
-		print "\nLeaked", caller[a], "bytes: "
-		print a
+	n = 0
+
+	for (k in caller) {
+		n++
+		keys[n] = k
 	}
+
+	for (i = 1; i <= n; i++) {
+		for (j = i + 1; j <= n; j++) {
+			if (caller[keys[i]] > caller[keys[j]]) {
+				t = keys[i]
+				keys[i] = keys[j]
+				keys[j] = t
+			}
+		}
+	}
+
+	for (i = 1; i <= n; i++) {
+		k = keys[i]
+		total += caller[k]
+		print "\nLeaked", caller[k], "bytes: "
+		printf k
+	}
+
 	if (total > 0)
 		printh("\nTotal potential leaks:", "\t\t", total)
-	if (ferr > 0) {
-		print "------------------------------\nwrong arguments passed to free()", ferr, "times:"
-		for (c in wrong)
-			printf "  line %dn", wrong[c]
-	}
 }
