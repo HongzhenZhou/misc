@@ -36,7 +36,7 @@ function printh(p, s, v) {
 		printf "%s%s%d B\n", p, s, v
 }
 
-substr($0, 1, 1) != " " && $2 == "+" {
+substr($0, 1, 1) != " " && ($2 == "+" || $2 == "<") {
 	if (last_addr && curr_stack && last_addr in addr && addr[last_addr] > 0) {
 		stack[last_addr] = curr_stack
 		if (curr_stack in caller)
