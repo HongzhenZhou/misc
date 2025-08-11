@@ -3,6 +3,7 @@
 BEGIN {
 	has_str2num = (strtonum (x)) == "0"
 	ferr = 0
+	fatal = 0
 	last_attr = ""
 	curr_stack = ""
 }
@@ -46,6 +47,7 @@ substr($0, 1, 1) != " " && ($2 == "+" || $2 == "<") {
 	}
 	if ($1 in addr) {
 		print "duplicate alloced addr", $1, $2, line[$1], NR
+		fatal = 1
 		exit
 	}
 	if ($3 > 0) {
@@ -72,6 +74,7 @@ substr($0, 1, 1) != " "  && $2 == "-" {
 					delete caller[stack[$1]]
 				else if (caller[stack[$1]] < 0) {
 					print "Something wrong happened", line[$1]
+					fatal = 1
 					exit
 				}
 			}
@@ -96,6 +99,9 @@ substr($0, 1, 1) == " " {
 END {
 	total = 0
 	n = 0
+
+	if (fatal)
+		exit
 
 	for (k in caller) {
 		n++
