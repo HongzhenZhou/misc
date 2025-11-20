@@ -72,6 +72,8 @@ END {
                 else
                         folder = folder "/" parts[i]
         }
+        if (index(FILENAME, "/") == 0 && index(folder, "/") == 1)
+                folder = "." folder
 
         for (h in hash) {
                 n++
